@@ -2,7 +2,7 @@
 node_modules
 dist
 release
-src/stylesheets
+src/stylesheets/*.css
 src/sass/terminal/main.scss
 
 *.bat
