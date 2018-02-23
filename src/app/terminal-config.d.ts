@@ -1,0 +1,1 @@
+C:/iChen/GitHub/ichen-terminal/src/app/terminal-config.d.ts

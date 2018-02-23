@@ -1,0 +1,64 @@
+﻿@import "_macros";
+@import "_common";
+.ichen-user {
+	&.ichen-list-container {
+		margin-top: 1em;
+	}
+	&.ichen-list-item {
+		margin-bottom: 0.5em;
+	}
+	.admin-account {
+		font-size: 120%;
+		color: #ff8c00;
+		vertical-align: middle;
+	}
+}
+
+.ichen-user-name {
+	min-width: 10em;
+	font-weight: bold;
+	text-align: left;
+	@media #{$IsSmartPhone} {
+		min-width: 5em;
+	}
+}
+
+.ichen-user-password {
+	@include TextBox();
+}
+
+.ichen-user {
+	.ichen-edit-filters {
+		.form-control {
+			height: inherit;
+		}
+		.choice {
+			display: inline-block;
+			min-width: 10em;
+			margin-right: 1em;
+			white-space: nowrap;
+			overflow: hidden;
+			-ms-text-overflow: ellipsis;
+			-o-text-overflow: ellipsis;
+			text-overflow: ellipsis;
+			input {
+				margin: 0;
+			}
+			label {
+				display: inline-block;
+				font-weight: normal;
+				margin: 0 0 0 0.5em;
+			}
+			&.selected {
+				label {
+					font-weight: bold;
+				}
+			}
+			@media #{$IsSmartPhone} {
+				display: block;
+				margin: 0;
+				min-width: 0;
+			}
+		}
+	}
+}

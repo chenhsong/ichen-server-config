@@ -1,0 +1,81 @@
+﻿declare module "*.json" {
+	const value: any;
+	export default value;
+}
+
+type Filters = "None" | "Status" | "Cycle" | "Mold" | "Actions" | "Alarms" | "Audit" | "JobCards" | "Operators" | "All";
+type ControllerTypes = "Ai01" | "Ai02" | "Ai11" | "Ai12" | "CPC60" | "MPC60" | "CDC2000" | "CDC3000" | "CDC2000WIN" | "SPS3300" | "NewAge" | "CBmold300" | "CBmold800" | "Unknown";
+
+interface Dictionary<T>
+{
+	[key: string]: T;
+}
+
+interface DictionaryWithDefault<T> extends Dictionary<T>
+{
+	default: T;
+}
+
+interface ITranslationDictionary extends Dictionary<string> { }
+
+interface IWrapper
+{
+	id: number;
+	isSaving?: boolean;
+	isError?: boolean;
+}
+
+interface ILoggedInUser
+{
+	sessionId: string;
+	started: string;
+	lastAccessed: string;
+	filters?: string;
+	roles: string[];
+	id: number;
+	password: string;
+	name: string;
+	isEnabled: boolean;
+	accessLevel: number;
+	created: string;
+	modified?: string;
+}
+
+interface IUser
+{
+	id: number;
+	password: string;
+	name: string;
+	isEnabled: boolean;
+	accessLevel: number;
+	filters: string;
+}
+
+interface IUsers extends Dictionary<IUser> { }
+
+interface IFilters
+{
+	All: boolean;
+	Status: boolean;
+	Cycle: boolean;
+	Mold: boolean;
+	Actions: boolean;
+	Alarms: boolean;
+	Audit: boolean;
+	JobCards: boolean;
+	Operators: boolean;
+	OPCUA: boolean;
+}
+
+interface IController
+{
+	id: number;
+	isEnabled: boolean;
+	name: string;
+	type: ControllerTypes;
+	version: string;
+	model: string;
+	IP: string;
+}
+
+interface IControllers extends Dictionary<IController> { }

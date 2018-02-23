@@ -1,0 +1,8 @@
+.vscode
+node_modules
+dist
+release
+src/stylesheets
+src/sass/terminal/main.scss
+
+*.bat

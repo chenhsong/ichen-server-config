@@ -1,0 +1,18 @@
+﻿ichen-logs {
+	select.form-control {
+		text-align: center;
+	}
+	table {
+		background-color: white;
+		border: 2px solid #ddd !important;
+		tr.warning {
+			font-weight: bold;
+			background-color: lightyellow !important;
+		}
+		tr.error {
+			font-weight: bold;
+			background-color: pink !important;
+			color: red;
+		}
+	}
+}

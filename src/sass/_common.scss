@@ -1,0 +1,57 @@
+﻿@import "_macros";
+
+@mixin Teletype()
+{
+	font-family: Courier New, Courier, monospace;
+	font-weight: bold;
+}
+
+@mixin TextBox()
+{
+	@include Teletype();
+	font-size: 120%;
+}
+
+.ichen-list-item
+{
+	display: block;
+
+	img
+	{
+		height: 16px;
+	}
+
+	.form-control
+	{
+		&.disabled
+		{
+			color: gray;
+			background-color: rgb(238, 238, 238);
+		}
+	}
+}
+
+.ichen-edit
+{
+	input[type=text]
+	{
+		font-family: Courier New, Courier, monospace;
+		font-weight: bold;
+	}
+
+	.input-group-addon
+	{
+		min-width: 6em;
+		text-align: left;
+
+		@media #{$IsSmartPhone}
+		{
+			min-width: 4em;
+		}
+
+		@media #{$IsSmallSmartPhone}
+		{
+			min-width: 0;
+		}
+	}
+}
