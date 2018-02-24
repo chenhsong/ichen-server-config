@@ -1,4 +1,5 @@
 ﻿@import "_macros";
+@import "_common";
 body {
 	background: url(../images/common/background.png) repeat;
 }
@@ -149,30 +150,10 @@ ichen-list-header {
 	}
 }
 
-.input-group-sm .form-control {
-	line-height: inherit;
-}
-
-.input-group-addon {
-	&.command {
-		background-color: white;
-		padding: 0;
-		&.active {
-			background-color: #0275d8;
-			.btn {
-				color: white !important;
-				background-color: #0275d8 !important;
-			}
-		}
-		.btn {
-			border: none;
-			height: 100%;
-			/*background: transparent;*/
-		}
-	}
+ichen-terminal-formatting {
 	.custom-select {
-		padding: 3px;
-		padding-right: 22px;
+		padding: 0.15rem;
+		padding-right: 1rem;
 		text-align: center;
 	}
 }

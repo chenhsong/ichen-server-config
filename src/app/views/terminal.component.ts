@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output } from "@angular/core";
 import { Http, Headers } from "@angular/http";
-import { Subject } from "rxjs/Rx";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/map";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";
 import { IFieldDef, StandardFields, CycleDataFields } from "../components/fields";
@@ -77,16 +78,16 @@ import NormalizeConfig from "../components/normalize";
 
 							<div *ngIf="selectedLine?.min!=null||selectedLine?.max!=null">
 								<div class="row">
-									<div *ngIf="selectedLine?.min!=null" class="form-group col col-sm-6">
+									<div *ngIf="selectedLine?.min!=null" class="form-group col-sm-6">
 										<div class="input-group input-group-sm">
-											<div class="input-group-addon">{{i18n.labelMin}}</div>
-											<div class="form-control"><div>{{transform(selectedLine?.min?.toString())}}</div></div>
+											<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMin}}</span></div>
+											<div class="form-control"><span>{{transform(selectedLine?.min?.toString())}}</span></div>
 										</div>
 									</div>
-									<div *ngIf="selectedLine?.max!=null" class="form-group col col-sm-6">
+									<div *ngIf="selectedLine?.max!=null" class="form-group col-sm-6">
 										<div class="input-group input-group-sm">
-											<div class="input-group-addon">{{i18n.labelMax}}</div>
-											<div class="form-control"><div>{{transform(selectedLine?.max?.toString())}}</div></div>
+											<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMax}}</span></div>
+											<div class="form-control"><span>{{transform(selectedLine?.max?.toString())}}</span></div>
 										</div>
 									</div>
 								</div>
@@ -103,10 +104,10 @@ import NormalizeConfig from "../components/normalize";
 							</div>
 
 							<div class="row">
-								<div class="ichen-edit-alwaysShow form-group col-6 col-md-4 m-b-0">
+								<div class="ichen-edit-alwaysShow form-group col-5">
 									<div class="input-group input-group-sm">
 										<div class="form-control justify-content-center"><input name="input-show-always" type="checkbox" [ngModel]="selectedLine?.showAlways" (change)="selectedLine.showAlways=$event.target.checked; setDirty(); setLineDirty(selectedLine);" /></div>
-										<div class="input-group-addon" [class.badge-success]="selectedLine?.showAlways">{{i18n.labelShowAlways}}</div>
+										<div class="input-group-append"><span class="input-group-text" [class.badge-success]="selectedLine?.showAlways">{{i18n.labelShowAlways}}</span></div>
 									</div>
 								</div>
 							</div>

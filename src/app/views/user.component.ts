@@ -1,16 +1,16 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { ItemBaseComponent } from "./item-base.component";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-user",
 	template: `
 		<div class="input-group input-group-sm">
-			<div class="input-group-addon ichen-user-name" [class.badge-danger]="info.isError">
+			<div class="input-group-prepend"><div class="input-group-text ichen-user-name" [class.badge-danger]="info.isError">
 				<img *ngIf="info.isSaving" class="extra-content" src="images/common/loading.gif" />
 				<span>{{info.name}} (<span [ngClass]="{'text-danger':info.accessLevel<=0}">{{info.accessLevel}}</span>)</span>
-			</div>
+			</div></div>
 			<div class="form-control" [ngClass]="{'disabled':!info.isEnabled}">
 				<div class="fill">
 					<span *ngIf="isAdmin" class="admin-account glyphicon glyphicon-lock"></span>
@@ -23,8 +23,8 @@ import { Config } from "../app.config";
 					<span class="extra-content">{{filtersText}}</span>
 				</div>
 			</div>
-			<div class="input-group-addon command">
-				<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-light"><span class="glyphicon glyphicon-pencil"></span></button>
+			<div class="input-group-append">
+				<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-outline-secondary"><span class="glyphicon glyphicon-pencil"></span></button>
 			</div>
 		</div>
 	`

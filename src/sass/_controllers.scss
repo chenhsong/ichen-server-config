@@ -1,50 +1,34 @@
 ﻿@import "_macros";
-@import "_common";
-
-.ichen-controller
-{
-	&.ichen-list-container
-	{
+.ichen-controller {
+	&.ichen-list-container {
 		margin-top: 1em;
 	}
-
-	&.ichen-list-item
-	{
+	&.ichen-list-item {
 		margin-bottom: 0.5em;
 	}
 }
 
-.ichen-controller-id
-{
+.ichen-controller-id {
 	min-width: 8em;
 	font-weight: bold;
 	text-align: left;
-
-	@media #{$IsSmartPhone}
-	{
+	@media #{$IsSmartPhone} {
 		min-width: 3em;
 	}
 }
 
-.ichen-controller-name
-{
+.ichen-controller-name {
 	@include TextBox();
 }
 
-.ichen-controller
-{
-	.ichen-edit
-	{
-		.input-group-addon
-		{
+.ichen-controller {
+	.ichen-edit {
+		.input-group-prepend {
 			min-width: 5em;
 		}
 	}
-
-	.ichen-edit-id
-	{
-		@media only screen and (min-width:768px)
-		{
+	.ichen-edit-id {
+		@media only screen and (min-width: 768px) {
 			padding-right: 0;
 		}
 	}

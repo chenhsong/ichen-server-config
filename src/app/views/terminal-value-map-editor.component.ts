@@ -15,36 +15,38 @@ import Actions from "../components/actions";
 			</div>
 			<div class="card-body">
 				<!-- Data field -->
-				<div *ngIf="!!info.field" class="input-group input-group-sm">
-					<span class="input-group-addon">{{i18n.labelField}}</span>
+				<div *ngIf="!!info.field" class="input-group input-group-smxxx">
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelField}}</span></div>
 
 					<div class="form-control">{{transform(fieldType.name)}}</div>
 				</div>
 
 				<!-- Data entry -->
-				<div [ngSwitch]="fieldType?.type" class="input-group input-group-sm">
-					<span (click)="toggleNegated()" class="input-group-addon negation">
+				<div [ngSwitch]="fieldType?.type" class="input-group input-group-smxxx">
+					<div class="input-group-prepend"><span (click)="toggleNegated()" class="input-group-text negation">
 						<span *ngIf="!negated">{{i18n.labelEqualsTo}}</span>
 						<span *ngIf="negated">{{i18n.labelNotEqualsTo}}</span>
-					</span>
+					</span></div>
 
 					<div *ngSwitchCase="'null'" class="form-control"></div>
 					<div *ngSwitchCase="'boolean'" class="form-control">
-						<input name="input-value" type="checkbox" [ngModel]="!!currValue" (change)="changeValue($event.target.checked)" />
+						<input name="input-value" type="checkbox" [ngModel]="!!currValue" (change)="changeValue(!!$event.target.checked)" />
+						&nbsp;&nbsp;
+						<span>{{i18n[!!currValue ? "labelTrue" : "labelFalse"]}}</span>
 					</div>
 					<input name="input-value" *ngSwitchCase="'string'" placeholder="{{i18n.labelBlank}}" [ngModel]="currValue?.toString()||''" (change)="changeValue($event.target.value)" class="form-control" />
 					<input name="input-value" *ngSwitchCase="'ID'" placeholder="{{i18n.labelNothing}}" [ngModel]="currValue?.toString()" (change)="changeValue(!$event.target.value.trim()?null:parseFloat($event.target.value))" class="form-control" />
 					<input name="input-value" *ngSwitchCase="'number'" placeholder="{{i18n.labelNothing}}" [ngModel]="currValue?.toString()" (change)="changeValue(!$event.target.value.trim()?null:parseFloat($event.target.value))" class="form-control" />
 					<input name="input-value" *ngSwitchCase="'Date'" [ngModel]="currValue?.toString()" (change)="changeValue($event.target.value)" class="form-control" />
-					<select name="input-value" *ngSwitchCase="'OpModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="form-control custom-select p-y-0 p-l-0">
+					<select name="input-value" *ngSwitchCase="'OpModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="custom-select">
 							<option value="null">{{i18n.labelNothing}}</option>
 							<option *ngFor="let opt of opModes" value="{{opt.name}}">{{i18n[opt.description]}}</option>
 					</select>
-					<select name="input-value" *ngSwitchCase="'JobModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="form-control custom-select p-y-0 p-l-0">
+					<select name="input-value" *ngSwitchCase="'JobModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="custom-select">
 							<option value="null">{{i18n.labelNothing}}</option>
 							<option *ngFor="let opt of jobModes" value="{{opt.name}}">{{i18n[opt.description]}}</option>
 					</select>
-					<select name="input-value" *ngSwitchCase="'Actions'" [ngModel]="currValue?.toString()||'0'" (change)="changeValue($event.target.value=='0'?null:parseInt($event.target.value,10),true)" class="form-control custom-select p-y-0 p-l-0">
+					<select name="input-value" *ngSwitchCase="'Actions'" [ngModel]="currValue?.toString()||'0'" (change)="changeValue($event.target.value=='0'?null:parseInt($event.target.value,10),true)" class="custom-select">
 							<option value="0">{{i18n.labelNothing}}</option>
 							<option *ngFor="let opt of actions" value="{{opt.id}}">{{i18n[opt.description]}}</option>
 					</select>

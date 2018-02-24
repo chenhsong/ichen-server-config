@@ -14,7 +14,7 @@ import cloneObject from "../components/clone-object";
 				<div class="row">
 					<div class="ichen-edit-name form-group col-md-6" [class.has-danger]="!isInputValid(name)">
 						<div class="input-group">
-							<span class="input-group-addon">{{i18n.labelUserName}}</span>
+							<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelUserName}}</span></div>
 
 							<input type="text" class="form-control form-control-danger" placeholder="{{i18n.labelUserName}}"
 										 name="input-name"
@@ -27,7 +27,7 @@ import cloneObject from "../components/clone-object";
 
 					<div class="ichen-edit-password form-group col-md-6" [class.has-danger]="!isInputValid(password)">
 						<div class="input-group">
-							<span class="input-group-addon">{{i18n.labelPassword}}</span>
+							<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelPassword}}</span></div>
 
 							<input type="text" class="form-control form-control-danger" placeholder="{{i18n.labelPassword}}"
 										 name="input-password"
@@ -42,9 +42,9 @@ import cloneObject from "../components/clone-object";
 				<div class="row">
 					<div class="ichen-edit-accessLevel form-group col-md-5">
 						<div class="input-group">
-							<span class="input-group-addon" [class.badge-danger]="accessLevel<=0">{{i18n.labelAccessLevel}}</span>
+							<div class="input-group-prepend"><span class="input-group-text" [class.badge-danger]="accessLevel<=0">{{i18n.labelAccessLevel}}</span></div>
 							<div class="form-control justify-content-center" [textContent]="accessLevel"></div>
-							<div class="input-group-btn">
+							<div class="input-group-append">
 								<button type="button" (click)="changeAccessLevel(-1)" [disabled]="accessLevel<=0" class="btn btn-secondary"><span class="glyphicon glyphicon-chevron-down"></span></button>
 								<button type="button" (click)="changeAccessLevel(+1)" [disabled]="accessLevel>=10" class="btn btn-secondary"><span class="glyphicon glyphicon-chevron-up"></span></button>
 							</div>
@@ -56,27 +56,29 @@ import cloneObject from "../components/clone-object";
 					<div *ngIf="!filters.All" class="ichen-edit-isEnabled form-group col-md-3">
 						<div class="input-group">
 							<div class="form-control"><input type="checkbox" name="input-enabled" [(ngModel)]="enabled" (change)="dirty=true" /></div>
-							<div class="input-group-addon justify-content-center" [class.badge-success]="enabled" [class.badge-danger]="!enabled"><span *ngIf="enabled">{{i18n.labelEnabled}}</span><span *ngIf="!enabled">{{i18n.labelDisabled}}</span></div>
+							<div class="input-group-append"><span class="input-group-text justify-content-center badge-success" *ngIf="enabled">{{i18n.labelEnabled}}</span><span class="input-group-text justify-content-center badge-danger" *ngIf="!enabled">{{i18n.labelDisabled}}</span></div>
 						</div>
 					</div>
 				</div>
 
-				<div *ngIf="!filters.All" class="ichen-edit-filters form-group">
-					<div class="input-group">
-						<span class="input-group-addon">Open<br />Protocol<br />{{i18n.labelFilters}}</span>
-						<div class="form-control"><div>
-							<span class="choice"><input name="input-filter-status" [(ngModel)]="filters.Status" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterStatus}}</label></span>
-							<span class="choice"><input name="input-filter-cycle" [(ngModel)]="filters.Cycle" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterCycle}}</label></span>
-							<span class="choice"><input name="input-filter-mold" [(ngModel)]="filters.Mold" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterMold}}</label></span>
-							<span class="choice"><input name="input-filter-actions" [(ngModel)]="filters.Actions" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterActions}}</label></span>
-							<span class="choice"><input name="input-filter-alarms" [(ngModel)]="filters.Alarms" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterAlarms}}</label></span>
-							<span class="choice"><input name="input-filter-audit" [(ngModel)]="filters.Audit" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterAudit}}</label></span>
-							<span class="choice"><input name="input-filter-jobcards" [(ngModel)]="filters.JobCards" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterJobCards}}</label></span>
-							<span class="choice"><input name="input-filter-operators" [(ngModel)]="filters.Operators" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterOperators}}</label></span>
-							<span class="choice"><input name="input-filter-opcua" [(ngModel)]="filters.OPCUA" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterOPCUA}}</label></span>
-						</div></div>
+				<div class="row" *ngIf="!filters.All">
+					<div class="ichen-edit-filters form-group col">
+						<div class="input-group">
+							<div class="input-group-prepend"><span class="input-group-text">Open<br />Protocol<br />{{i18n.labelFilters}}</span></div>
+							<div class="form-control"><div>
+								<span class="choice"><input name="input-filter-status" [(ngModel)]="filters.Status" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterStatus}}</label></span>
+								<span class="choice"><input name="input-filter-cycle" [(ngModel)]="filters.Cycle" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterCycle}}</label></span>
+								<span class="choice"><input name="input-filter-mold" [(ngModel)]="filters.Mold" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterMold}}</label></span>
+								<span class="choice"><input name="input-filter-actions" [(ngModel)]="filters.Actions" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterActions}}</label></span>
+								<span class="choice"><input name="input-filter-alarms" [(ngModel)]="filters.Alarms" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterAlarms}}</label></span>
+								<span class="choice"><input name="input-filter-audit" [(ngModel)]="filters.Audit" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterAudit}}</label></span>
+								<span class="choice"><input name="input-filter-jobcards" [(ngModel)]="filters.JobCards" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterJobCards}}</label></span>
+								<span class="choice"><input name="input-filter-operators" [(ngModel)]="filters.Operators" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterOperators}}</label></span>
+								<span class="choice"><input name="input-filter-opcua" [(ngModel)]="filters.OPCUA" (change)="dirty=true" type="checkbox" /><label>{{i18n.labelFilterOPCUA}}</label></span>
+							</div></div>
+						</div>
+						<div class="clearfix"></div>
 					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
 

@@ -5,9 +5,11 @@ import { ItemBaseComponent } from "./item-base.component";
 	selector: "ichen-controller",
 	template: `
 		<div class="input-group input-group-sm">
-			<div class="input-group-addon ichen-controller-id" [class.badge-danger]="info.isError">
-				<img *ngIf="info.isSaving" class="extra-content" src="images/common/loading.gif" />
-				<span>{{info.id}}</span>
+			<div class="input-group-prepend">
+				<div class="input-group-text ichen-controller-id" [class.badge-danger]="info.isError">
+					<img *ngIf="info.isSaving" class="extra-content" src="images/common/loading.gif" />
+					<span>{{info.id}}</span>
+				</div>
 			</div>
 			<div class="form-control" [ngClass]="{'disabled':!info.isEnabled}">
 				<div class="fill">
@@ -18,8 +20,8 @@ import { ItemBaseComponent } from "./item-base.component";
 					<span class="extra-content">{{info.model}} ({{info.type}}) @ {{info.IP}}</span>
 				</div>
 			</div>
-			<div class="input-group-addon command">
-				<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>
+			<div class="input-group-append">
+				<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-outline-secondary"><span class="glyphicon glyphicon-pencil"></span></button>
 			</div>
 		</div>
 	`

@@ -13,7 +13,7 @@ import ControllerTypes from "../components/controllers";
 				<div class="row">
 					<div class="ichen-edit-id form-group col-md-5" [class.has-danger]="!isNumeric(id)">
 						<div class="input-group">
-							<span class="input-group-addon">{{i18n.labelSerialNum}}</span>
+							<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelSerialNum}}</span></div>
 
 							<input type="text" class="form-control form-control-danger" placeholder="{{i18n.textMachineSerialNum}}" [disabled]="!!info"
 										 name="input-id"
@@ -29,21 +29,23 @@ import ControllerTypes from "../components/controllers";
 					<div class="ichen-edit-isEnabled form-group col-md-3">
 						<div class="input-group">
 							<div class="form-control"><input type="checkbox" name="input-enabled" (change)="dirty=true" [(ngModel)]="enabled" /></div>
-							<div class="input-group-addon justify-content-center" [class.badge-success]="enabled" [class.badge-danger]="!enabled"><span *ngIf="enabled">{{i18n.labelEnabled}}</span><span *ngIf="!enabled">{{i18n.labelDisabled}}</span></div>
+							<div class="input-group-append"><span class="input-group-text justify-content-center badge-success" *ngIf="enabled">{{i18n.labelEnabled}}</span><span class="input-group-text justify-content-center badge-danger" *ngIf="!enabled">{{i18n.labelDisabled}}</span></div>
 						</div>
 					</div>
 				</div>
 
-				<div class="ichen-edit-name form-group" [class.has-danger]="!isInputValid(name)">
-					<div class="input-group">
-						<span class="input-group-addon">{{i18n.labelMachineName}}</span>
+				<div class="row">
+					<div class="ichen-edit-name form-group col" [class.has-danger]="!isInputValid(name)">
+						<div class="input-group">
+							<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMachineName}}</span></div>
 
-						<input type="text" class="form-control form-control-danger" placeholder="{{i18n.textMachineName}}"
-									 name="input-name"
-						       [(ngModel)]="name"
-						       (input)="dirty=true"
-						       (change)="$event.target.value=name.trim()"
-						/>
+							<input type="text" class="form-control form-control-danger" placeholder="{{i18n.textMachineName}}"
+										name="input-name"
+										[(ngModel)]="name"
+										(input)="dirty=true"
+										(change)="$event.target.value=name.trim()"
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

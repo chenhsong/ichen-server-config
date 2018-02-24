@@ -18,7 +18,7 @@ interface ILogLine
 		<div *ngIf="!isError" class="row">
 			<div class="form-group col-md-6 col-lg-5">
 				<div class="input-group">
-					<span class="input-group-addon">{{i18n.labelDate}}</span>
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelDate}}</span></div>
 
 					<select value="null" [disabled]="isBusy" (change)="changeDate($event.target.value)" class="form-control custom-select">
 						<option value="null">{{i18n.labelSelectDate}}</option>
@@ -29,7 +29,7 @@ interface ILogLine
 
 			<div *ngIf="selectedDate && classesList" class="form-group col-md-5 col-lg-5">
 				<div class="input-group">
-					<span class="input-group-addon">{{i18n.labelType}}</span>
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelType}}</span></div>
 
 					<select
 						[ngModel]="selectedLevel"
@@ -49,7 +49,7 @@ interface ILogLine
 		<div *ngIf="!isError" class="row">
 			<div *ngIf="classesList" class="form-group col-md-9 col-lg-8">
 				<div class="input-group">
-					<span class="input-group-addon">{{i18n.labelCategory}}</span>
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelCategory}}</span></div>
 
 					<select
 						[ngModel]="selectedClass"
@@ -66,7 +66,7 @@ interface ILogLine
 		<div *ngIf="!isError" class="row">
 			<div *ngIf="classesList" class="form-group col-sm-8">
 				<div class="input-group">
-					<span class="input-group-addon">{{i18n.labelFormat}}</span>
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelFormat}}</span></div>
 					<select class="form-control"
 						[ngModel]="format"
 						(change)="format=$event.target.value; lines=null;">

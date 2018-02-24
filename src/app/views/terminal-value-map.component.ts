@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { BackgroundColors, BackgroundColorsMap, BorderColors, BorderColorsMap, TextColors, TextColorsMap, FontStyles } from "../components/formatting";
 import { findFieldDef } from "../components/fields";
 import { Transform } from "../components/map-field-name.pipe";
@@ -11,19 +11,19 @@ import Actions from "../components/actions";
 	selector: "ichen-terminal-value-map",
 	template: `
 		<div class="input-group input-group-sm">
-			<div class="input-group-addon">
+			<div class="input-group-prepend"><div class="input-group-text">
 				<span>{{transform(info.field)}}</span>
 				<span *ngIf="isNotNegated">=</span>
 				<span *ngIf="isNegated"><></span>
-			</div>
+			</div></div>
 			<div class="form-control" [ngSwitch]="infoValue">
 				<span *ngSwitchCase="null"><em>{{i18n.labelNothing}}</em></span>
 				<span *ngSwitchCase="''"><em>{{i18n.labelBlank}}</em></span>
 				<span *ngSwitchDefault>{{formatFieldValue(infoValue)}}</span>
 			</div>
-			<div class="input-group-addon sample-text ichen-terminal-color {{defaultClasses}} {{info?.class }}"><span *ngIf="textColors">{{i18n.labelTextSample}}</span></div>
-			<div class="input-group-addon command">
-				<button type="button" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-light"><span class="glyphicon glyphicon-pencil"></span></button>
+			<div class="input-group-append">
+				<div class="input-group-text sample-text ichen-terminal-color {{defaultClasses}} {{info?.class }}"><span *ngIf="textColors">{{i18n.labelTextSample}}</span></div>
+				<button type="button" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-outline-secondary"><span class="glyphicon glyphicon-pencil"></span></button>
 			</div>
 		</div>
 	`

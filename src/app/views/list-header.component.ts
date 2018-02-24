@@ -12,7 +12,7 @@ import { Config } from "../app.config";
 			</div>
 			<div class="col-md-7 col-xl-8" *ngIf="filterVisible">
 				<div class="input-group">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;{{i18n.labelFilter}}</span>
+					<div class="input-group-prepend"><span class="input-group-text"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;{{i18n.labelFilter}}</span></div>
 					<input [disabled]="!filterEnabled" (input)="filterChangedEvent.emit($event.target.value)" class="form-control" placeholder="{{i18n.textSearchText}}" />
 				</div>
 			</div>

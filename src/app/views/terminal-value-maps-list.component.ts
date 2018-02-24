@@ -1,5 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Subject, Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/filter";
 import { Config } from "../app.config";
 import { findFieldDef, DefaultField } from "../components/fields";
 

@@ -1,5 +1,6 @@
 ﻿import { Http, Headers } from "@angular/http";
-import { Subject } from "rxjs/Rx";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/map";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
 

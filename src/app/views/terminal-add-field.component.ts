@@ -12,8 +12,8 @@ const CustomValue = "__CUSTOM__";
 				{{title}}
 			</div>
 			<div class="card-body">
-				<div class="input-group input-group-sm">
-					<span class="input-group-addon">{{i18n.labelField}}</span>
+				<div class="input-group input-group-smxxx">
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelField}}</span></div>
 
 					<select (change)="field=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
 						<option *ngIf="useDefault" value="unset">{{i18n.labelUseDefault}}</option>
@@ -28,8 +28,8 @@ const CustomValue = "__CUSTOM__";
 				</div>
 
 				<div *ngIf="useMinMax && isNumericField">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon">{{i18n.labelMin}}</span>
+					<div class="input-group input-group-smxxx">
+						<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMin}}</span></div>
 						<select #minMode (change)="min=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
 							<option value="null">{{i18n.labelNothing}}</option>
 							<option value="__CUSTOM__">{{i18n.labelCustomValue}}</option>
@@ -40,8 +40,8 @@ const CustomValue = "__CUSTOM__";
 						</select>
 						<input *ngIf="minMode.value=='__CUSTOM__'" (change)="$event.target.value=minValue=parseFloat($event.target.value)" class="form-control" />
 					</div>
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon">{{i18n.labelMax}}</span>
+					<div class="input-group input-group-smxxx">
+						<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMax}}</span></div>
 						<select #maxMode (change)="max=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
 							<option value="null">{{i18n.labelNothing}}</option>
 							<option value="__CUSTOM__">{{i18n.labelCustomValue}}</option>
@@ -54,8 +54,8 @@ const CustomValue = "__CUSTOM__";
 					</div>
 				</div>
 
-				<div *ngIf="fieldNeedsSpecify" class="input-group input-group-sm has-feedback" [class.has-error]="!validAlarmName">
-					<span class="input-group-addon negation">{{i18n.labelFieldAlarmName}}</span>
+				<div *ngIf="fieldNeedsSpecify" class="input-group input-group-smxxx has-feedback" [class.has-error]="!validAlarmName">
+					<div class="input-group-prepend"><span class="input-group-text negation">{{i18n.labelFieldAlarmName}}</span></div>
 					<input (input)="alarmName=$event.target.value" (change)="alarmName=$event.target.value" class="form-control" />
 					<span *ngIf="!validAlarmName" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 				</div>

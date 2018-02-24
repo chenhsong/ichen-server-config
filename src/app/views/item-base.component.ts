@@ -1,5 +1,5 @@
 ﻿import { Input, Output, EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 
 export class ItemBaseComponent<K, T extends {}>
 {

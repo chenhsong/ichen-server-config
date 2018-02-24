@@ -1,39 +1,33 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { MiscColors, BackgroundColors, TextColors, BorderColors, IColorDef } from "../components/colors";
 
 @Component({
 	selector: "ichen-terminal-formatting",
 	template: `
-		<div class="input-group input-group-{{large?'lg':'sm'}}">
-			<span class="input-group-addon">
+		<div class="input-group input-group-{{large?'':'smxxx'}}">
+			<div class="input-group-prepend"><span class="input-group-text">
 				{{title}}
 				<span *ngIf="!title" class="glyphicon glyphicon-text-background"></span>
-			</span>
+			</span></div>
 
 			<div class="form-control sample-text ichen-terminal-color {{classes}} text-center">
 				<span *ngIf="textColors">{{i18n.labelTextSample}}</span>
 				<span *ngIf="!textColors">&nbsp;</span>
 			</div>
 
-			<div *ngIf="backgroundColors" class="input-group-addon field-select p-a-0">
-				<select name="input-background" class="custom-select" [ngModel]="getColor('B')" (change)="setColor('B',$event.target.value)">
-					<option *ngFor="let opt of colorDefs.BackgroundColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelBackground}}</option>
-				</select>
-			</div>
-			<div *ngIf="textColors" class="input-group-addon field-select p-a-0">
-				<select name="input-color" class="custom-select" [ngModel]="getColor('T')" (change)="setColor('T',$event.target.value)">
-					<option *ngFor="let opt of colorDefs.TextColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelText}}</option>
-				</select>
-			</div>
-			<div *ngIf="textColors" class="input-group-addon command" [class.active]="hasBold(classes)">
-				<button type="button" class="btn btn-sm btn-light" (click)="toggleClass('text-bold')"><span class="glyphicon glyphicon-bold"></span></button>
-			</div>
-			<div *ngIf="textColors" class="input-group-addon command" [class.active]="hasItalics(classes)">
-				<button type="button" class="btn btn-sm btn-light" (click)="toggleClass('text-italics')"><span class="glyphicon glyphicon-italic"></span></button>
-			</div>
-			<div *ngIf="backgroundColors" class="input-group-addon command" [class.active]="hasBlink(classes)">
-				<button type="button" class="btn btn-sm btn-light" (click)="toggleClass('blink')"><span class="glyphicon glyphicon-flash"></span></button>
+			<select *ngIf="backgroundColors" name="input-background" class="custom-select" [ngModel]="getColor('B')" (change)="setColor('B',$event.target.value)">
+				<option *ngFor="let opt of colorDefs.BackgroundColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelBackground}}</option>
+			</select>
+
+			<select *ngIf="textColors" name="input-color" class="custom-select" [ngModel]="getColor('T')" (change)="setColor('T',$event.target.value)">
+				<option *ngFor="let opt of colorDefs.TextColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelText}}</option>
+			</select>
+
+			<div *ngIf="textColors" class="input-group-append">
+				<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasBold(classes) ? 'primary' : 'outline-secondary')" (click)="toggleClass('text-bold')"><span class="glyphicon glyphicon-bold"></span></button>
+				<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasItalics(classes) ? 'primary' : 'outline-secondary')" (click)="toggleClass('text-italics')"><span class="glyphicon glyphicon-italic"></span></button>
+				<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasBlink(classes) ? 'primary' : 'outline-secondary')" (click)="toggleClass('blink')"><span class="glyphicon glyphicon-flash"></span></button>
 			</div>
 		</div>
 	`
