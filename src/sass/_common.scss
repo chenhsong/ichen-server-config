@@ -1,4 +1,5 @@
 ﻿@import "_macros";
+
 @mixin Teletype() {
 	font-family: Courier New, Courier, monospace;
 	font-weight: bold;
@@ -11,9 +12,11 @@
 
 .ichen-list-item {
 	display: block;
+
 	img {
 		height: 16px;
 	}
+
 	.form-control {
 		&.disabled {
 			color: gray;
@@ -27,13 +30,16 @@
 		font-family: Courier New, Courier, monospace;
 		font-weight: bold;
 	}
+
 	.input-group-prepend {
 		.input-group-text {
 			min-width: 6em;
 			text-align: left;
+
 			@media #{$IsSmartPhone} {
 				min-width: 4em;
 			}
+
 			@media #{$IsSmallSmartPhone} {
 				min-width: 0;
 			}
@@ -41,7 +47,7 @@
 	}
 }
 
-.card-body>.row:last-child {
+.card-body > .row:last-child {
 	.form-group {
 		margin-bottom: 0;
 	}
