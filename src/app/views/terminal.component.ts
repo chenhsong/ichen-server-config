@@ -1,7 +1,7 @@
 ﻿import { Component, Input, Output } from "@angular/core";
 import { Http, Headers } from "@angular/http";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/map";
+import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";
 import { IFieldDef, StandardFields, CycleDataFields } from "../components/fields";
@@ -151,27 +151,30 @@ export class TerminalComponent extends BaseComponent
 	{
 		super(http);
 
-		this.reload()
-			.map(r => r.text())
-			.map(text =>
+		this.reload().pipe(
+			// Get raw text
+			map(r => r.text()),
+			// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
+			map(text =>
 			{
-				// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
 				const n = text.indexOf("{");
-				if (n <= 0) return text;
-				return text.substr(n);
-			}).map(text => JSON.parse(text) as Terminal.IConfig)
-			.map(config => NormalizeConfig(config))
-			.subscribe(config =>
+				return (n <= 0) ? text : text.substr(n);
+			}),
+			// Parse JSON into object
+			map(text => JSON.parse(text) as Terminal.IConfig),
+			// Normalize
+			map(NormalizeConfig),
+		).subscribe(config =>
+		{
+			console.log("Terminal configuration file loaded.", config);
+			this.configFile = config;
+		}, err =>
 			{
-				console.log("Terminal configuration file loaded.", config);
-				this.configFile = config;
-			}, err =>
-				{
-					console.error("Cannot load terminal configuration file.", err);
+				console.error("Cannot load terminal configuration file.", err);
 
-					// Assume any error is failure to login
-					Config.jumpToPage();
-				});
+				// Assume any error is failure to login
+				Config.jumpToPage();
+			});
 	}
 
 	public readonly transform = Transform;

@@ -1,7 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/filter";
+import { filter } from "rxjs/operators";
 import { Config } from "../app.config";
 import { findFieldDef, DefaultField } from "../components/fields";
 
@@ -76,7 +76,9 @@ export class TerminalValueMapsListComponent implements OnInit
 
 	public ngOnInit()
 	{
-		this.changeStream.filter(x => !x || x === this.line).subscribe(() => this.itemChangeStream.next(null));
+		this.changeStream.pipe(
+			filter(x => !x || x === this.line)
+		).subscribe(() => this.itemChangeStream.next(null));
 	}
 
 	public isEditing(item: Terminal.IClassMap, editor: boolean)

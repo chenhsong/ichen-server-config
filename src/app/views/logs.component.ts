@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Http } from "@angular/http";
+import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { NullField } from "../components/fields";
 
@@ -153,20 +154,22 @@ export class LogsComponent implements OnInit
 		this.isBusy = true;
 		this.isError = false;
 
-		this.http.get(Config.URL.logsList).map(r => r.json() as string[]).subscribe(r =>
-		{
-			this.datesList = r;
-			this.isBusy = false;
-			this.isError = false;
-		}, err =>
+		this.http.get(Config.URL.logsList)
+			.pipe(map(r => r.json() as string[]))
+			.subscribe(r =>
 			{
-				console.error(err);
+				this.datesList = r;
 				this.isBusy = false;
-				this.isError = true;
+				this.isError = false;
+			}, err =>
+				{
+					console.error(err);
+					this.isBusy = false;
+					this.isError = true;
 
-				// Assume any error is failure to login
-				//Config.jumpToPage();
-			});
+					// Assume any error is failure to login
+					//Config.jumpToPage();
+				});
 	}
 
 	public changeDate(date: string)
@@ -181,23 +184,25 @@ export class LogsComponent implements OnInit
 		this.isBusy = true;
 		this.isError = false;
 
-		this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`).map(r => r.json()).subscribe(r =>
-		{
-			const classes: string[] = r.classes || [];
-
-			this.classesList = classes;
-			this.selectedLevel = NullField.name;
-			this.selectedClass = classes.some(cls => cls === "Core") ? "Core" : NullField.name;
-			this.lines = null;
-			this.isBusy = false;
-			this.isError = false;
-		}, err =>
+		this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`)
+			.pipe(map(r => r.json()))
+			.subscribe(r =>
 			{
-				this.classesList = null;
-				console.error(err);
+				const classes: string[] = r.classes || [];
+
+				this.classesList = classes;
+				this.selectedLevel = NullField.name;
+				this.selectedClass = classes.some(cls => cls === "Core") ? "Core" : NullField.name;
+				this.lines = null;
 				this.isBusy = false;
 				this.isError = false;
-			});
+			}, err =>
+				{
+					this.classesList = null;
+					console.error(err);
+					this.isBusy = false;
+					this.isError = false;
+				});
 	}
 
 	public loadLog()
@@ -214,19 +219,21 @@ export class LogsComponent implements OnInit
 			this.isBusy = true;
 			this.isError = false;
 
-			this.http.get(url).map(r => r.json() as ILogLine[]).subscribe(r =>
-			{
-				this.lines = r;
-				this.lines.forEach(x => x.time = new Date(x.time));
-				this.isBusy = false;
-				this.isError = false;
-			}, err =>
+			this.http.get(url)
+				.pipe(map(r => r.json() as ILogLine[]))
+				.subscribe(r =>
 				{
-					this.lines = null;
-					console.error(err);
+					this.lines = r;
+					this.lines.forEach(x => x.time = new Date(x.time));
 					this.isBusy = false;
-					this.isError = true;
-				});
+					this.isError = false;
+				}, err =>
+					{
+						this.lines = null;
+						console.error(err);
+						this.isBusy = false;
+						this.isError = true;
+					});
 		} else {
 			// Download file
 			query.push("format=" + this.format);

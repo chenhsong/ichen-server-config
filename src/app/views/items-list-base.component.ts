@@ -1,6 +1,6 @@
 ﻿import { Http, Headers } from "@angular/http";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/map";
+import { map } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
 
@@ -66,7 +66,7 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 		this.itemStream.next([]);
 
 		super.reload()
-			.map(r => r.json() as { [key: string]: T; })
+			.pipe(map(r => r.json() as { [key: string]: T; }))
 			.subscribe(items =>
 			{
 				const list: (T & IWrapper)[] = [];
@@ -119,7 +119,7 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 
 		this.http.post(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`, JSON.stringify(newItem), {
 			headers: ItemsListBaseComponent.PostHeaders
-		}).map(r => r.json() as T)
+		}).pipe(map(r => r.json() as T))
 			.subscribe(item =>
 			{
 				console.log("Changes successfully saved.", item);

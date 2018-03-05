@@ -1,6 +1,5 @@
 ﻿import { Component, Input, Output } from "@angular/core";
 import { Http } from "@angular/http";
-import { Subject } from "rxjs/Subject";
 import { Config } from "../app.config";
 import { ItemsListBaseComponent } from "./items-list-base.component";
 

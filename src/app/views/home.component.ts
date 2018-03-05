@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { Http } from "@angular/http";
+import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 
 interface IStatus
@@ -98,34 +99,36 @@ export class HomeComponent implements OnDestroy
 
 		this.isBusy = true;
 
-		this.http.get(Config.URL.status).map(r => r.json() as IStatus).subscribe(r =>
-		{
-			if (!this.refreshTask) this.refreshTask = setInterval(this.refresh.bind(this), 5000);
-
-			if (r.started) r.started = new Date(r.started);
-			this.status = r;
-
-			if (r.clients) {
-				this.clientsList = [];
-				for (const key in r.clients) this.clientsList.push({ key, description: r.clients[key] });
-			} else {
-				this.clientsList = null;
-			}
-
-			if (r.controllers) {
-				this.controllersList = [];
-				for (const key in r.controllers) this.controllersList.push({ key, description: r.controllers[key] });
-			} else {
-				this.controllersList = null;
-			}
-
-			this.isBusy = false;
-		}, err =>
+		this.http.get(Config.URL.status)
+			.pipe(map(r => r.json() as IStatus))
+			.subscribe(r =>
 			{
-				this.isBusy = false;
+				if (!this.refreshTask) this.refreshTask = setInterval(this.refresh.bind(this), 5000);
 
-				// Assume any error is failure to login
-				Config.jumpToPage();
-			});
+				if (r.started) r.started = new Date(r.started);
+				this.status = r;
+
+				if (r.clients) {
+					this.clientsList = [];
+					for (const key in r.clients) this.clientsList.push({ key, description: r.clients[key] });
+				} else {
+					this.clientsList = null;
+				}
+
+				if (r.controllers) {
+					this.controllersList = [];
+					for (const key in r.controllers) this.controllersList.push({ key, description: r.controllers[key] });
+				} else {
+					this.controllersList = null;
+				}
+
+				this.isBusy = false;
+			}, err =>
+				{
+					this.isBusy = false;
+
+					// Assume any error is failure to login
+					Config.jumpToPage();
+				});
 	}
 }

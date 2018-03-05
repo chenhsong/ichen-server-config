@@ -1,7 +1,7 @@
 ﻿import { OnInit } from "@angular/core";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/do";
+import { tap } from "rxjs/operators";
 
 export class BaseComponent implements OnInit
 {
@@ -22,8 +22,8 @@ export class BaseComponent implements OnInit
 		this.isBusy = true;
 		this.isError = false;
 
-		return this.http.get(this.urlGet)
-			.do(r =>
+		return this.http.get(this.urlGet).pipe(
+			tap(r =>
 			{
 				this.isBusy = false;
 				this.isError = false;
@@ -32,6 +32,7 @@ export class BaseComponent implements OnInit
 				{
 					this.isBusy = false;
 					this.isError = true;
-				});
+				})
+		);
 	}
 }

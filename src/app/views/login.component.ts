@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 
 @Component({
@@ -67,28 +68,29 @@ export class LoginComponent
 
 		this.http.post(Config.URL.login, JSON.stringify(login), {
 			headers: new Headers({ "Content-Type": "application/json" })
-		}).map(r => r.json() as ILoggedInUser).subscribe(user =>
-		{
-			console.log("Successfully logged in.", user);
-			this.isBusy = false;
-			this.isError = false;
-
-			if (!user.roles || user.roles.indexOf("All") < 0) {
-				alert(this.i18n.textNoAuthority);
-				this.isError = true;
-				Config.currentUser = null;
-			} else {
-				Config.currentUser = user;
-				Config.jumpToPage(Config.URL.homeRoute);
-			}
-		}, err =>
+		}).pipe(map(r => r.json() as ILoggedInUser))
+			.subscribe(user =>
 			{
-				console.error(err);
-				alert("Login failed.");
-
-				Config.currentUser = null;
+				console.log("Successfully logged in.", user);
 				this.isBusy = false;
-				this.isError = true;
-			});
+				this.isError = false;
+
+				if (!user.roles || user.roles.indexOf("All") < 0) {
+					alert(this.i18n.textNoAuthority);
+					this.isError = true;
+					Config.currentUser = null;
+				} else {
+					Config.currentUser = user;
+					Config.jumpToPage(Config.URL.homeRoute);
+				}
+			}, err =>
+				{
+					console.error(err);
+					alert("Login failed.");
+
+					Config.currentUser = null;
+					this.isBusy = false;
+					this.isError = true;
+				});
 	}
 }
