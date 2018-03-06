@@ -1,7 +1,8 @@
 # iChen&reg; System 4.1 Server Configuration UI
 
 Language: TypeScript 2.7 or above  
-Framework: Angular 5.2 or above
+Framework: Angular 6.0 or above  
+Major Packages: Bootstrap 4
 
 This is a web application that allows configuration of an iChen&reg; System Server.
 
