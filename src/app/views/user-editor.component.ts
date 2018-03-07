@@ -1,5 +1,4 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import cloneObject from "../components/clone-object";
 
 @Component({
 	selector: "ichen-user-editor",
