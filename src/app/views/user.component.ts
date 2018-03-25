@@ -1,6 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { ItemBaseComponent } from "./item-base.component";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { Config } from "../app.config";
 
 @Component({

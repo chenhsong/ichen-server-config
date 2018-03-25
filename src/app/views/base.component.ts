@@ -1,6 +1,6 @@
 ﻿import { OnInit } from "@angular/core";
 import { Http } from "@angular/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 
 export class BaseComponent implements OnInit
