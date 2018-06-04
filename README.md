@@ -10,5 +10,5 @@ This is a web application that allows configuration of an iChen&reg; System Serv
 
 1. Install Angular: `npm install @angular/cli -g`
 2. Restore packages: `npm install`
-3. Build: `npm build`
+3. Build: `ng build --prod`
 4. Completed app is in the `dist` directory
