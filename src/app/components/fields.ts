@@ -43,6 +43,7 @@ export const StandardFields: IFieldDef[] = [
 	{ name: "jobCardId", description: "labelFieldJobCard", type: "string" },
 	{ name: "lastConnectionTime", description: "labelFieldConnectTime", filter: "date:'y-M-d H:mm:ss'", type: "Date" },
 	{ name: "operatorId", description: "labelFieldOperator", type: "ID" },
+	{ name: "operatorName", description: "labelFieldOperatorName", type: "string" },
 	{ name: "moldId", description: "labelFieldMold", type: "string" },
 	{ name: "actionId", description: "labelFieldAction", filter: "textMap:'Actions'", type: "Actions" },
 	{ name: "alarm?.key", description: "labelFieldLastAlarmName", type: "string" },
