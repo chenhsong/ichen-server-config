@@ -1,6 +1,6 @@
 ﻿import { OnInit } from "@angular/core";
 import { Http } from "@angular/http";
-import { tap } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 export class BaseComponent implements OnInit
 {
@@ -11,29 +11,29 @@ export class BaseComponent implements OnInit
 
 	public ngOnInit()
 	{
-		this.reload();
+		this.reloadAsync();
 	}
 
 	protected get urlGet(): string { throw new Error("Not implemented."); }
 
-	protected reload()
+	protected buildLoadingPipeline()
+	{
+		return this.http.get(this.urlGet) as Observable<any>;
+	}
+
+	protected async reloadAsync()
 	{
 		this.isError = false;
 		const handle = setTimeout(() => this.isBusy = true, 500);
 
-		return this.http.get(this.urlGet).pipe(
-			tap(r =>
-			{
-				clearTimeout(handle);
-				this.isBusy = false;
-				this.isError = false;
-				return r;
-			}, err =>
-				{
-					clearTimeout(handle);
-					this.isBusy = false;
-					this.isError = true;
-				})
-		);
+		try {
+			return await this.buildLoadingPipeline().toPromise();
+		} catch {
+			this.isError = true;
+			return null;
+		} finally {
+			clearTimeout(handle);
+			this.isBusy = false;
+		}
 	}
 }

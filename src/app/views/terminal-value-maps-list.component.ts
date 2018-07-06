@@ -73,11 +73,11 @@ export class TerminalValueMapsListComponent implements OnInit
 	public isNotNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("value"); }
 	public isNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("notValue"); }
 
-	public ngOnInit()
+	public async ngOnInit()
 	{
-		this.changeStream.pipe(
-			filter(x => !x || x === this.line)
-		).subscribe(() => this.itemChangeStream.next(null));
+		await this.changeStream.pipe(filter(x => !x || x === this.line)).toPromise();
+
+		this.itemChangeStream.next(null);
 	}
 
 	public isEditing(item: Terminal.IClassMap, editor: boolean)
@@ -100,12 +100,10 @@ export class TerminalValueMapsListComponent implements OnInit
 
 		if (!this.line.maps) {
 			this.line.maps = [map];
+		} else if (Array.isArray(this.line.maps)) {
+			this.line.maps.push(map);
 		} else {
-			if (Array.isArray(this.line.maps)) {
-				this.line.maps.push(map);
-			} else {
-				this.line.maps = [this.line.maps, map];
-			}
+			this.line.maps = [this.line.maps, map];
 		}
 
 		this.changeEvent.emit(this.line);

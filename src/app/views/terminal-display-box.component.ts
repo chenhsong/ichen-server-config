@@ -9,8 +9,7 @@ import { Transform } from "../components/map-field-name.pipe";
 			<div class="ctrl-frame" (click)="selectLine(null)">
 				<div class="frame-label">{{i18n.textClickForFrameStyles}}</div>
 				<div *ngFor="let line of lines; let i=index"
-				     class="ichen-terminal ichen-terminal-line ctrl-item {{line.class}}"
-				     [class.selected]="isSelected(line)"
+				     class="ichen-terminal ichen-terminal-line ctrl-item {{line.class}} {{isSelected(line) ? 'selected' : ''}}"
 				     (click)="selectLine(line);$event.stopPropagation();">
 
 					<span class="ichen-terminal ichen-terminal-line ichen-terminal-line-field">{{transform(line.field)}}</span>

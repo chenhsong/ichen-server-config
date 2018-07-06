@@ -1,7 +1,7 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http, Headers, Response } from "@angular/http";
 import { Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";
 import { IFieldDef, StandardFields, CycleDataFields } from "../components/fields";
@@ -150,11 +150,11 @@ export class TerminalComponent extends BaseComponent
 
 	constructor(http: Http) { super(http); }
 
-	public reload(): any
+	protected buildLoadingPipeline()
 	{
-		super.reload().pipe(
+		return super.buildLoadingPipeline().pipe(
 			// Get raw text
-			map(r => r.text()),
+			map((r: Response) => r.text()),
 			// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
 			map(text =>
 			{
@@ -164,18 +164,23 @@ export class TerminalComponent extends BaseComponent
 			// Parse JSON into object
 			map(text => JSON.parse(text) as Terminal.IConfig),
 			// Normalize
-			map(NormalizeConfig),
-		).subscribe(config =>
-		{
+			map(NormalizeConfig)
+		);
+	}
+
+	protected async reloadAsync()
+	{
+		try {
+			const config = await super.reloadAsync() as Terminal.IConfig;
+
 			console.log("Terminal configuration file loaded.", config);
 			this.configFile = config;
-		}, err =>
-			{
-				console.error("Cannot load terminal configuration file.", err);
+		} catch (err) {
+			console.error("Cannot load terminal configuration file.", err);
 
-				// Assume any error is failure to login
-				Config.jumpToPage();
-			});
+			// Assume any error is failure to login
+			Config.jumpToPage();
+		}
 
 		return null;
 	}
@@ -255,25 +260,27 @@ export class TerminalComponent extends BaseComponent
 		this.setDirty();
 	}
 
-	public saveConfigFile()
+	public async saveConfigFileAsync()
 	{
 		if (!this.configFile) return;
 
 		this.isSaving = true;
 
-		this.http.post(this.urlPost, JSON.stringify(this.configFile), {
-			headers: new Headers({ "Content-Type": "application/json" })
-		}).subscribe(r =>
-		{
-			this.setDirty(false);
-			this.isSaving = false;
-		}, error =>
-			{
-				alert("Cannot save changes!");
-				this.isSaving = false;
+		try {
+			const r = await this.http.post(this.urlPost,
+				JSON.stringify(this.configFile),
+				{ headers: new Headers({ "Content-Type": "application/json" }) }
+			).toPromise();
 
-				// Assume any error is failure to login
-				Config.jumpToPage();
-			});
+			this.setDirty(false);
+		} catch {
+			this.isSaving = false;
+			alert("Cannot save changes!");
+
+			// Assume any error is failure to login
+			Config.jumpToPage();
+		} finally {
+			this.isSaving = false;
+		}
 	}
 }

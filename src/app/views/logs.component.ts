@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { NullField } from "../components/fields";
@@ -21,7 +21,7 @@ interface ILogLine
 				<div class="input-group">
 					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelDate}}</span></div>
 
-					<select value="null" [disabled]="isBusy" (change)="changeDate($event.target.value)" class="form-control custom-select">
+					<select value="null" [disabled]="isBusy" (change)="onDateChangedAsync($event.target.value)" class="form-control custom-select">
 						<option value="null">{{i18n.labelSelectDate}}</option>
 						<option *ngFor="let date of datesList" value="{{date}}">{{date}}</option>
 					</select>
@@ -86,7 +86,7 @@ interface ILogLine
 				<button *ngIf="selectedDate && classesList"
 					class="btn btn-primary text-center text-sm-left"
 					[disabled]="isBusy"
-					(click)="loadLog()"
+					(click)="loadLogAsync()"
 				><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;{{i18n.btnGo}}</button>
 			</div>
 		</div>
@@ -149,32 +149,30 @@ export class LogsComponent implements OnInit
 
 	public get i18n() { return Config.i18n; }
 
-	public ngOnInit()
+	public async ngOnInit()
 	{
 		const handle = setTimeout(() => this.isBusy = true, 500);
 		this.isError = false;
 
-		this.http.get(Config.URL.logsList)
-			.pipe(map(r => r.json() as string[]))
-			.subscribe(r =>
-			{
-				clearTimeout(handle);
-				this.datesList = r;
-				this.isBusy = false;
-				this.isError = false;
-			}, err =>
-				{
-					clearTimeout(handle);
-					console.error(err);
-					this.isBusy = false;
-					this.isError = true;
+		try {
+			this.datesList = await this.http.get(Config.URL.logsList)
+				.pipe(map((resp: Response) => resp.json() as string[]))
+				.toPromise();
 
-					// Assume any error is failure to login
-					//Config.jumpToPage();
-				});
+			this.isError = false;
+		} catch (err) {
+			console.error(err);
+			this.isError = true;
+
+			// Assume any error is failure to login
+			//Config.jumpToPage();
+		} finally {
+			clearTimeout(handle);
+			this.isBusy = false;
+		}
 	}
 
-	public changeDate(date: string)
+	public async onDateChangedAsync(date: string)
 	{
 		if (date === NullField.name) {
 			this.selectedDate = null;
@@ -183,31 +181,31 @@ export class LogsComponent implements OnInit
 		}
 
 		this.selectedDate = date;
-		this.isBusy = true;
+		const handle = setTimeout(() => this.isBusy = true, 500);
 		this.isError = false;
 
-		this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`)
-			.pipe(map(r => r.json()))
-			.subscribe(r =>
-			{
-				const classes: string[] = r.classes || [];
+		try {
+			const r = await this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`)
+				.pipe(map((resp: Response) => resp.json())).toPromise();
 
-				this.classesList = classes;
-				this.selectedLevel = NullField.name;
-				this.selectedClass = classes.some(cls => cls === "Core") ? "Core" : NullField.name;
-				this.lines = null;
-				this.isBusy = false;
-				this.isError = false;
-			}, err =>
-				{
-					this.classesList = null;
-					console.error(err);
-					this.isBusy = false;
-					this.isError = false;
-				});
+			const classes: string[] = r.classes || [];
+
+			this.classesList = classes;
+			this.selectedLevel = NullField.name;
+			this.selectedClass = classes.some(cls => cls === "Core") ? "Core" : NullField.name;
+			this.lines = null;
+			this.isError = false;
+		} catch (err) {
+			this.classesList = null;
+			console.error(err);
+			this.isError = false;
+		} finally {
+			clearTimeout(handle);
+			this.isBusy = false;
+		}
 	}
 
-	public loadLog()
+	public async loadLogAsync()
 	{
 		let url = `${Config.URL.logFile}/${this.selectedDate}`;
 		const query: string[] = [];
@@ -218,24 +216,24 @@ export class LogsComponent implements OnInit
 			// On-screen display
 
 			if (query.length) url += "?" + query.join("&");
-			this.isBusy = true;
+			const handle = setTimeout(() => this.isBusy = true, 500);
 			this.isError = false;
 
-			this.http.get(url)
-				.pipe(map(r => r.json() as ILogLine[]))
-				.subscribe(r =>
-				{
-					this.lines = r;
-					this.lines.forEach(x => x.time = new Date(x.time));
-					this.isBusy = false;
-					this.isError = false;
-				}, err =>
-					{
-						this.lines = null;
-						console.error(err);
-						this.isBusy = false;
-						this.isError = true;
-					});
+			try {
+				this.lines = await this.http.get(url)
+					.pipe(map((r: Response) => r.json() as ILogLine[]))
+					.toPromise();
+
+				this.lines.forEach(x => x.time = new Date(x.time));
+				this.isError = false;
+			} catch (err) {
+				this.lines = null;
+				console.error(err);
+				this.isError = true;
+			} finally {
+				clearTimeout(handle);
+				this.isBusy = false;
+			}
 		} else {
 			// Download file
 			query.push("format=" + this.format);

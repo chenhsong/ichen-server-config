@@ -13,7 +13,7 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 
 			[reloadEnabled]="!isBusy"
 			[reloadVisible]="!isEditing(newItem,true)"
-			(reload)="reload()"
+			(reload)="reloadAsync()"
 
 			[filterEnabled]="!isBusy&&!isError"
 			[filterVisible]="!isEditing(newItem,true)"
@@ -30,7 +30,7 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 			class="ichen-controller ichen-edit"
 			[title]="i18n.labelNewMachine"
 			*ngIf="isEditing(newItem,true)"
-			(save)="onAdd($event)"
+			(save)="onAddAsync($event)"
 			(close)="editItem(null)">
 		</ichen-controller-editor>
 
@@ -56,8 +56,8 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 					[version]="controller.version"
 					[IP]="controller.IP"
 					*ngIf="isEditing(controller,true)"
-					(save)="onSave(controller,$event)"
-					(delete)="onDelete(controller,$event)"
+					(save)="onSaveAsync(controller,$event)"
+					(delete)="onDeleteAsync(controller,$event)"
 					(close)="editItem(null)">
 				</ichen-controller-editor>
 			</div>

@@ -30,7 +30,7 @@ import { Config } from "../app.config";
 			</div>
 
 			<div class="card-footer buttons-strip">
-				<button type="submit" [disabled]="!isValidUser || !isValidPassword" (click)="doLogin($event)" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;{{i18n.btnLogin}}</button>
+				<button type="submit" [disabled]="!isValidUser || !isValidPassword" (click)="doLoginAsync($event)" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;{{i18n.btnLogin}}</button>
 			</div>
 		</form>
 
@@ -53,7 +53,7 @@ export class LoginComponent
 	public get isValidUser() { return !!this.user && !!this.user.trim(); }
 	public get isValidPassword() { return !!this.password && !!this.password.trim(); }
 
-	public doLogin(ev: Event)
+	public async doLoginAsync(ev: Event)
 	{
 		ev.preventDefault();
 
@@ -66,31 +66,32 @@ export class LoginComponent
 		this.isBusy = true;
 		this.isError = false;
 
-		this.http.post(Config.URL.login, JSON.stringify(login), {
-			headers: new Headers({ "Content-Type": "application/json" })
-		}).pipe(map(r => r.json() as ILoggedInUser))
-			.subscribe(user =>
-			{
-				console.log("Successfully logged in.", user);
-				this.isBusy = false;
-				this.isError = false;
+		try {
+			const user = await this.http.post(Config.URL.login,
+				JSON.stringify(login),
+				{ headers: new Headers({ "Content-Type": "application/json" }) }
+			).pipe(map(r => r.json() as ILoggedInUser)).toPromise();
 
-				if (!user.roles || user.roles.indexOf("All") < 0) {
-					alert(this.i18n.textNoAuthority);
-					this.isError = true;
-					Config.currentUser = null;
-				} else {
-					Config.currentUser = user;
-					Config.jumpToPage(Config.URL.homeRoute);
-				}
-			}, err =>
-				{
-					console.error(err);
-					alert("Login failed.");
+			console.log("Successfully logged in.", user);
 
-					Config.currentUser = null;
-					this.isBusy = false;
-					this.isError = true;
-				});
+			this.isBusy = false;
+			this.isError = false;
+
+			if (!user.roles || user.roles.indexOf("All") < 0) {
+				alert(this.i18n.textNoAuthority);
+				this.isError = true;
+				Config.currentUser = null;
+			} else {
+				Config.currentUser = user;
+				Config.jumpToPage(Config.URL.homeRoute);
+			}
+		} catch (err) {
+			console.error(err);
+			alert("Login failed.");
+
+			Config.currentUser = null;
+			this.isBusy = false;
+			this.isError = true;
+		}
 	}
 }

@@ -13,7 +13,7 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 
 			[reloadEnabled]="!isBusy"
 			[reloadVisible]="!isEditing(newItem,true)"
-			(reload)="reload()"
+			(reload)="reloadAsync()"
 
 			[filterEnabled]="!isBusy&&!isError"
 			[filterVisible]="!isEditing(newItem,true)"
@@ -29,7 +29,7 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 		<ichen-user-editor class="ichen-user ichen-edit" [i18n]="i18n"
 			[title]="i18n.labelNewUser"
 			*ngIf="isEditing(newItem,true)"
-			(save)="onAdd($event)"
+			(save)="onAddAsync($event)"
 			(close)="editItem(null)">
 		</ichen-user-editor>
 
@@ -52,8 +52,8 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 					[name]="user.name"
 					[accessLevel]="user.accessLevel"
 					[enabled]="user.isEnabled"
-					(save)="onSave(user,$event)"
-					(delete)="onDelete(user,$event)"
+					(save)="onSaveAsync(user,$event)"
+					(delete)="onDeleteAsync(user,$event)"
 					(close)="editItem(null)">
 				</ichen-user-editor>
 			</div>

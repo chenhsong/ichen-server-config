@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 
@@ -78,7 +78,7 @@ export class HomeComponent implements OnDestroy
 
 	constructor(private http: Http)
 	{
-		this.refresh();
+		this.refreshAsync();
 	}
 
 	public ngOnDestroy()
@@ -93,42 +93,40 @@ export class HomeComponent implements OnDestroy
 		this.http.get(Config.URL.logout).subscribe(() => Config.jumpToPage());
 	}
 
-	private refresh()
+	private async refreshAsync()
 	{
 		if (this.isBusy) return;
 
 		this.isBusy = true;
 
-		this.http.get(Config.URL.status)
-			.pipe(map(r => r.json() as IStatus))
-			.subscribe(r =>
-			{
-				if (!this.refreshTask) this.refreshTask = setInterval(this.refresh.bind(this), 5000);
+		try {
+			const r = await this.http.get(Config.URL.status)
+				.pipe(map((resp: Response) => resp.json() as IStatus))
+				.toPromise();
 
-				if (r.started) r.started = new Date(r.started);
-				this.status = r;
+			if (!this.refreshTask) this.refreshTask = setInterval(this.refreshAsync.bind(this), 5000);
 
-				if (r.clients) {
-					this.clientsList = [];
-					for (const key in r.clients) this.clientsList.push({ key, description: r.clients[key] });
-				} else {
-					this.clientsList = null;
-				}
+			if (r.started) r.started = new Date(r.started);
+			this.status = r;
 
-				if (r.controllers) {
-					this.controllersList = [];
-					for (const key in r.controllers) this.controllersList.push({ key, description: r.controllers[key] });
-				} else {
-					this.controllersList = null;
-				}
+			if (r.clients) {
+				this.clientsList = [];
+				for (const key in r.clients) this.clientsList.push({ key, description: r.clients[key] });
+			} else {
+				this.clientsList = null;
+			}
 
-				this.isBusy = false;
-			}, err =>
-				{
-					this.isBusy = false;
-
-					// Assume any error is failure to login
-					Config.jumpToPage();
-				});
+			if (r.controllers) {
+				this.controllersList = [];
+				for (const key in r.controllers) this.controllersList.push({ key, description: r.controllers[key] });
+			} else {
+				this.controllersList = null;
+			}
+		} catch (err) {
+			// Assume any error is failure to login
+			Config.jumpToPage();
+		} finally {
+			this.isBusy = false;
+		}
 	}
 }
