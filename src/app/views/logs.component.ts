@@ -151,18 +151,20 @@ export class LogsComponent implements OnInit
 
 	public ngOnInit()
 	{
-		this.isBusy = true;
+		const handle = setTimeout(() => this.isBusy = true, 500);
 		this.isError = false;
 
 		this.http.get(Config.URL.logsList)
 			.pipe(map(r => r.json() as string[]))
 			.subscribe(r =>
 			{
+				clearTimeout(handle);
 				this.datesList = r;
 				this.isBusy = false;
 				this.isError = false;
 			}, err =>
 				{
+					clearTimeout(handle);
 					console.error(err);
 					this.isBusy = false;
 					this.isError = true;

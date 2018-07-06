@@ -146,12 +146,13 @@ export class TerminalComponent extends BaseComponent
 
 	public readonly isDebug = Config.isDebug;
 	public get i18n() { return Config.i18n; }
+	public readonly transform = Transform;
 
-	constructor(http: Http)
+	constructor(http: Http) { super(http); }
+
+	public reload(): any
 	{
-		super(http);
-
-		this.reload().pipe(
+		super.reload().pipe(
 			// Get raw text
 			map(r => r.text()),
 			// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
@@ -175,9 +176,9 @@ export class TerminalComponent extends BaseComponent
 				// Assume any error is failure to login
 				Config.jumpToPage();
 			});
-	}
 
-	public readonly transform = Transform;
+		return null;
+	}
 
 	protected get urlGet() { return Config.URL.terminalConfig; }
 	protected get urlPost() { return Config.URL.terminalConfig; }
