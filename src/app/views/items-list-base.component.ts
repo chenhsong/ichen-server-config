@@ -1,6 +1,6 @@
 ﻿import { Http, Headers, Response } from "@angular/http";
 import { Subject } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
 
@@ -95,12 +95,12 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 		console.log("Adding new item", newItem);
 
 		try {
-			const item = await this.http.post(this.urlGet,
+			const resp = await this.http.post(this.urlGet,
 				JSON.stringify(newItem),
 				{ headers: ItemsListBaseComponent.PostHeaders }
 			).toPromise();
 
-			console.log("Item successfully added.", item);
+			console.log("Item successfully added.", resp);
 			this.buildLoadingPipeline();
 		} catch (err) {
 			console.error(err);
@@ -119,10 +119,12 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 		console.log("Saving changes", newItem);
 
 		try {
-			const item = await this.http.post(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`,
+			const resp = await this.http.post(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`,
 				JSON.stringify(newItem),
 				{ headers: ItemsListBaseComponent.PostHeaders }
-			).pipe(map((r: Response) => r.json() as T)).toPromise();
+			).toPromise();
+
+			const item = resp.json() as T;
 
 			console.log("Changes successfully saved.", item);
 

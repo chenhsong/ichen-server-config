@@ -1,8 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
-import { Config } from "../app.config";
-import { findFieldDef, DefaultField } from "../components/fields";
+import { findFieldDef } from "../components/fields";
 
 @Component({
 	selector: "ichen-terminal-value-maps-list",
@@ -75,9 +74,9 @@ export class TerminalValueMapsListComponent implements OnInit
 
 	public async ngOnInit()
 	{
-		await this.changeStream.pipe(filter(x => !x || x === this.line)).toPromise();
-
-		this.itemChangeStream.next(null);
+		this.changeStream
+			.pipe(filter(x => !x || x === this.line))
+			.subscribe(_ => this.itemChangeStream.next(null));
 	}
 
 	public isEditing(item: Terminal.IClassMap, editor: boolean)

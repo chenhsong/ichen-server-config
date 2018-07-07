@@ -1,6 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { map } from "rxjs/operators";
+import { Http } from "@angular/http";
 import { Config } from "../app.config";
 
 interface IStatus
@@ -64,7 +63,7 @@ interface IStatus
 			</ul>
 		</div>
 
-		<button type="button" (click)="doLogout()" class="btn btn-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;{{i18n.btnLogout}}</button>
+		<button type="button" (click)="doLogoutAsync()" class="btn btn-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;{{i18n.btnLogout}}</button>
 	`
 })
 export class HomeComponent implements OnDestroy
@@ -86,11 +85,13 @@ export class HomeComponent implements OnDestroy
 		clearInterval(this.refreshTask);
 	}
 
-	public doLogout()
+	public async doLogoutAsync()
 	{
 		if (this.isBusy) return;
 		Config.currentUser = null;
-		this.http.get(Config.URL.logout).subscribe(() => Config.jumpToPage());
+
+		await this.http.get(Config.URL.logout).toPromise();
+		Config.jumpToPage();
 	}
 
 	private async refreshAsync()
@@ -100,9 +101,8 @@ export class HomeComponent implements OnDestroy
 		this.isBusy = true;
 
 		try {
-			const r = await this.http.get(Config.URL.status)
-				.pipe(map((resp: Response) => resp.json() as IStatus))
-				.toPromise();
+			const resp = await this.http.get(Config.URL.status).toPromise();
+			const r = resp.json() as IStatus;
 
 			if (!this.refreshTask) this.refreshTask = setInterval(this.refreshAsync.bind(this), 5000);
 

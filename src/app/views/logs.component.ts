@@ -1,6 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { map } from "rxjs/operators";
+import { Http } from "@angular/http";
 import { Config } from "../app.config";
 import { NullField } from "../components/fields";
 
@@ -155,10 +154,8 @@ export class LogsComponent implements OnInit
 		this.isError = false;
 
 		try {
-			this.datesList = await this.http.get(Config.URL.logsList)
-				.pipe(map((resp: Response) => resp.json() as string[]))
-				.toPromise();
-
+			const resp = await this.http.get(Config.URL.logsList).toPromise();
+			this.datesList = resp.json() as string[];
 			this.isError = false;
 		} catch (err) {
 			console.error(err);
@@ -185,8 +182,8 @@ export class LogsComponent implements OnInit
 		this.isError = false;
 
 		try {
-			const r = await this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`)
-				.pipe(map((resp: Response) => resp.json())).toPromise();
+			const resp = await this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`).toPromise();
+			const r = resp.json();
 
 			const classes: string[] = r.classes || [];
 
@@ -220,10 +217,8 @@ export class LogsComponent implements OnInit
 			this.isError = false;
 
 			try {
-				this.lines = await this.http.get(url)
-					.pipe(map((r: Response) => r.json() as ILogLine[]))
-					.toPromise();
-
+				const resp = await this.http.get(url).toPromise();
+				this.lines = resp.json() as ILogLine[];
 				this.lines.forEach(x => x.time = new Date(x.time));
 				this.isError = false;
 			} catch (err) {

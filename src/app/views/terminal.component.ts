@@ -267,7 +267,7 @@ export class TerminalComponent extends BaseComponent
 		this.isSaving = true;
 
 		try {
-			const r = await this.http.post(this.urlPost,
+			const resp = await this.http.post(this.urlPost,
 				JSON.stringify(this.configFile),
 				{ headers: new Headers({ "Content-Type": "application/json" }) }
 			).toPromise();
