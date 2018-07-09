@@ -1,6 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { filter } from "rxjs/operators";
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { findFieldDef } from "../components/fields";
 
 @Component({
@@ -17,7 +15,6 @@ import { findFieldDef } from "../components/fields";
 						[defaultClasses]="line?.class"
 						[textColors]="textColors"
 						[backgroundColors]="backgroundColors"
-						[changeStream]="itemChangeStream"
 						*ngIf="isEditing(map,false)"
 						(edit)="editItem(map)">
 					</ichen-terminal-value-map>
@@ -52,7 +49,7 @@ import { findFieldDef } from "../components/fields";
 		</div>
 	`
 })
-export class TerminalValueMapsListComponent implements OnInit
+export class TerminalValueMapsListComponent
 {
 	@Input() public readonly i18n!: ITranslationDictionary;
 
@@ -60,24 +57,15 @@ export class TerminalValueMapsListComponent implements OnInit
 	@Input() public readonly title = "Value styles";
 	@Input() public readonly textColors = true;
 	@Input() public readonly backgroundColors = true;
-	@Input() public readonly changeStream!: Observable<Terminal.ILineConfig>;
 	@Output("listChanged") public readonly changeEvent = new EventEmitter<Terminal.ILineConfig>();
 
 	private editingItem: Terminal.IClassMap | null = null;
 	public newEnabled = false;
-	public readonly itemChangeStream = new Subject<Terminal.IClassMap | null>();
 
 	public readonly findField = findFieldDef;
 
 	public isNotNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("value"); }
 	public isNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("notValue"); }
-
-	public async ngOnInit()
-	{
-		this.changeStream
-			.pipe(filter(x => !x || x === this.line))
-			.subscribe(_ => this.itemChangeStream.next(null));
-	}
 
 	public isEditing(item: Terminal.IClassMap, editor: boolean)
 	{

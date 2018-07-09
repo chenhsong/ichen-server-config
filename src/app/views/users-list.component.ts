@@ -41,7 +41,6 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 					[name]="user.name"
 					[accessLevel]="user.accessLevel"
 					[enabled]="user.isEnabled"
-					[changeStream]="itemChangeStream"
 					(edit)="editItem(user)">
 				</ichen-user>
 

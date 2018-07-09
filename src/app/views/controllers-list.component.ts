@@ -39,7 +39,6 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 				<ichen-controller [i18n]="i18n"
 					class="ichen-controller ichen-list-item"
 					[info]="controller"
-					[changeStream]="itemChangeStream"
 					*ngIf="isEditing(controller,false)"
 					(edit)="editItem(controller)">
 				</ichen-controller>

@@ -12,8 +12,8 @@ interface IStatus
 	port?: number;
 	openProtocol?: number;
 	OPCUA?: number[];
-	controllers?: { [key: string]: string; };
-	clients?: { [key: string]: string; };
+	controllers?: Dictionary<string>;
+	clients?: Dictionary<string>;
 }
 
 @Component({

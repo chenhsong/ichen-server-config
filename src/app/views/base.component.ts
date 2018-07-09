@@ -1,8 +1,8 @@
 ﻿import { OnInit } from "@angular/core";
 import { Http } from "@angular/http";
-import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
-export class BaseComponent implements OnInit
+export class BaseComponent<R extends object> implements OnInit
 {
 	public isBusy = false;
 	public isError = false;
@@ -18,7 +18,7 @@ export class BaseComponent implements OnInit
 
 	protected buildLoadingPipeline()
 	{
-		return this.http.get(this.urlGet) as Observable<any>;
+		return this.http.get(this.urlGet).pipe(map(r => r.json() as R));
 	}
 
 	protected async reloadAsync()
@@ -28,9 +28,9 @@ export class BaseComponent implements OnInit
 
 		try {
 			return await this.buildLoadingPipeline().toPromise();
-		} catch {
+		} catch (err) {
 			this.isError = true;
-			return null;
+			throw err;
 		} finally {
 			clearTimeout(handle);
 			this.isBusy = false;

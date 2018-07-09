@@ -1,10 +1,9 @@
 ﻿import { Http, Headers, Response } from "@angular/http";
 import { Subject } from "rxjs";
-import { map } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
 
-export class ItemsListBaseComponent<T extends {}> extends BaseComponent
+export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dictionary<T>>
 {
 	private static PostHeaders = new Headers({ "Content-Type": "application/json" });
 
@@ -12,7 +11,6 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 	public newItem: (T & IWrapper) | null = null;
 	public editingItem: T | null = null;
 	public readonly itemStream = new Subject<(T & IWrapper)[]>();
-	public readonly itemChangeStream = new Subject<number>();
 
 	constructor(protected http: Http) { super(http); }
 
@@ -60,18 +58,13 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 
 	protected sortList(list: (T & IWrapper)[]) { return list; }
 
-	protected buildLoadingPipeline()
-	{
-		return super.buildLoadingPipeline().pipe(map((r: Response) => r.json() as { [key: string]: T; }));
-	}
-
 	public async reloadAsync()
 	{
 		this.editItem(null);
 		this.itemStream.next([]);
 
 		try {
-			const items: { [key: string]: T; } = await super.reloadAsync();
+			const items: Dictionary<T> = await super.reloadAsync();
 			const list: (T & IWrapper)[] = [];
 
 			for (const key in items) {
@@ -81,11 +74,15 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 			}
 
 			this.itemStream.next(this.sortList(list));
+
+			return items;
 		} catch (err) {
 			console.error("Cannot get list.", err);
 
 			// Assume any error is failure to login
 			Config.jumpToPage();
+
+			throw err;
 		}
 	}
 
@@ -133,13 +130,10 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 				if (!item.hasOwnProperty(key)) continue;
 				(oldItem as any)[key] = (item as any)[key];
 			}
-
-			this.itemChangeStream.next(oldItem.id);
 		} catch (err) {
 			console.error(err);
 			alert("Cannot save item! " + err);
 			oldItem.isError = true;
-			this.itemChangeStream.next(oldItem.id);
 
 			// Assume any error is failure to login
 			Config.jumpToPage();
@@ -164,7 +158,6 @@ export class ItemsListBaseComponent<T extends {}> extends BaseComponent
 			console.error(err);
 			alert("Cannot delete item! " + err);
 			oldItem.isError = true;
-			this.itemChangeStream.next(oldItem.id);
 
 			// Assume any error is failure to login
 			Config.jumpToPage();

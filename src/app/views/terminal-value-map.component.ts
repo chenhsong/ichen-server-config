@@ -1,6 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Observable } from "rxjs";
-import { BackgroundColors, BackgroundColorsMap, BorderColors, BorderColorsMap, TextColors, TextColorsMap, FontStyles } from "../components/formatting";
+import { BackgroundColorsMap, BorderColorsMap, TextColorsMap } from "../components/formatting";
 import { findFieldDef } from "../components/fields";
 import { Transform } from "../components/map-field-name.pipe";
 import OpModes from "../components/op-modes";
@@ -33,7 +32,6 @@ export class TerminalValueMapComponent
 	@Input() public readonly i18n!: ITranslationDictionary;
 
 	@Input() public readonly info!: Terminal.IClassMap;
-	@Input() public readonly changeStream!: Observable<Terminal.IClassMap>;
 	@Input() public readonly defaultField: string | null = null;
 	@Input() public readonly defaultClasses: string | null = null;
 	@Input() public readonly textColors = true;

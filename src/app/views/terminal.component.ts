@@ -1,10 +1,9 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import { Subject } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { Http, Headers } from "@angular/http";
+import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";
-import { IFieldDef, StandardFields, CycleDataFields } from "../components/fields";
+import { StandardFields, CycleDataFields } from "../components/fields";
 import { Transform } from "../components/map-field-name.pipe";
 import NormalizeConfig from "../components/normalize";
 
@@ -18,7 +17,7 @@ import NormalizeConfig from "../components/normalize";
 					[lines]="configFile?.controllers?.default?.lines"
 					[selected]="selectedLine"
 					(lineSelected)="selectLine($event)"
-					(displayChanged)="setDirty(); setLineDirty(configFile.controllers.default.lines);"
+					(displayChanged)="setDirty()"
 					[class.frame-selected]="frameSelected">
 				</ichen-terminal-display-box>
 
@@ -58,8 +57,7 @@ import NormalizeConfig from "../components/normalize";
 						[line]="configFile?.controllers?.default"
 						[title]="i18n.labelFrameStyles"
 						[textColors]="false"
-						[changeStream]="itemChangeStream"
-						(listChanged)="setDirty();setLineDirty(configFile.controllers.default)">
+						(listChanged)="setDirty()">
 					</ichen-terminal-value-maps-list>
 					<div *ngIf="isDebug">{{configFile?.controllers?.default?.maps|json}}</div>
 				</div>
@@ -72,7 +70,7 @@ import NormalizeConfig from "../components/normalize";
 						<div class="card-body">
 							<div class="row">
 								<div class="ichen-edit-formatting form-group col">
-									<ichen-terminal-formatting [i18n]="i18n" [classes]="selectedLine?.class" (classesChanged)="selectedLine.class=$event; setDirty(); setLineDirty(selectedLine);"></ichen-terminal-formatting>
+									<ichen-terminal-formatting [i18n]="i18n" [classes]="selectedLine?.class" (classesChanged)="selectedLine.class=$event; setDirty()"></ichen-terminal-formatting>
 								</div>
 							</div>
 
@@ -97,7 +95,7 @@ import NormalizeConfig from "../components/normalize";
 											[title]="i18n.labelOverlayBarColor"
 											[textColors]="false"
 											[classes]="selectedLine?.overlay"
-											(classesChanged)="selectedLine.overlay=$event; setDirty(); setLineDirty(selectedLine);">
+											(classesChanged)="selectedLine.overlay=$event; setDirty()">
 										</ichen-terminal-formatting>
 									</div>
 								</div>
@@ -106,7 +104,7 @@ import NormalizeConfig from "../components/normalize";
 							<div class="row">
 								<div class="ichen-edit-alwaysShow form-group col-5">
 									<div class="input-group input-group-sm">
-										<div class="form-control justify-content-center"><input name="input-show-always" type="checkbox" [ngModel]="selectedLine?.showAlways" (change)="selectedLine.showAlways=$event.target.checked; setDirty(); setLineDirty(selectedLine);" /></div>
+										<div class="form-control justify-content-center"><input name="input-show-always" type="checkbox" [ngModel]="selectedLine?.showAlways" (change)="selectedLine.showAlways=$event.target.checked; setDirty()" /></div>
 										<div class="input-group-append"><span class="input-group-text" [class.badge-success]="selectedLine?.showAlways">{{i18n.labelShowAlways}}</span></div>
 									</div>
 								</div>
@@ -118,8 +116,7 @@ import NormalizeConfig from "../components/normalize";
 					<ichen-terminal-value-maps-list [i18n]="i18n"
 						[line]="selectedLine"
 						[title]="i18n.labelValueStyles"
-						[changeStream]="itemChangeStream"
-						(listChanged)="setDirty(); setLineDirty(selectedLine);">
+						(listChanged)="setDirty()">
 					</ichen-terminal-value-maps-list>
 
 					<div *ngIf="isDebug">{{selectedLine|json}}</div>
@@ -134,7 +131,7 @@ import NormalizeConfig from "../components/normalize";
 		<div id="imgError" *ngIf="isError"><img src="images/common/error.png" /></div>
 	`
 })
-export class TerminalComponent extends BaseComponent
+export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 {
 	public configFile!: Terminal.IConfig;
 	public selectedLine: Terminal.ILineConfig | null = null;
@@ -142,7 +139,6 @@ export class TerminalComponent extends BaseComponent
 	public newEnabled = false;
 	public isDirty = false;
 	public isSaving = false;
-	public readonly itemChangeStream = new Subject<Terminal.ILineConfig>();
 
 	public readonly isDebug = Config.isDebug;
 	public get i18n() { return Config.i18n; }
@@ -152,9 +148,9 @@ export class TerminalComponent extends BaseComponent
 
 	protected buildLoadingPipeline()
 	{
-		return super.buildLoadingPipeline().pipe(
+		return this.http.get(this.urlGet).pipe(
 			// Get raw text
-			map((r: Response) => r.text()),
+			map(r => r.text()),
 			// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
 			map(text =>
 			{
@@ -171,18 +167,20 @@ export class TerminalComponent extends BaseComponent
 	protected async reloadAsync()
 	{
 		try {
-			const config = await super.reloadAsync() as Terminal.IConfig;
+			const config = await super.reloadAsync();
 
 			console.log("Terminal configuration file loaded.", config);
 			this.configFile = config;
+
+			return config;
 		} catch (err) {
 			console.error("Cannot load terminal configuration file.", err);
 
 			// Assume any error is failure to login
 			Config.jumpToPage();
-		}
 
-		return null;
+			throw err;
+		}
 	}
 
 	protected get urlGet() { return Config.URL.terminalConfig; }
@@ -194,11 +192,6 @@ export class TerminalComponent extends BaseComponent
 
 		// Create a new lines array to make sure the display box know of changes
 		this.configFile.controllers.default.lines = this.configFile.controllers.default.lines.slice();
-	}
-
-	public setLineDirty(line: Terminal.ILineConfig)
-	{
-		this.itemChangeStream.next(line);
 	}
 
 	public selectLine(line: Terminal.ILineConfig | null)

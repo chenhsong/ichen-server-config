@@ -1,6 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { ItemBaseComponent } from "./item-base.component";
-import { Observable } from "rxjs";
 import { Config } from "../app.config";
 
 @Component({
@@ -39,7 +38,6 @@ export class UserComponent extends ItemBaseComponent<number, IUser>
 	@Input() public readonly accessLevel = 0;
 	@Input() public readonly enabled = true;
 	@Input() public readonly isAdmin = false;
-	@Input() public readonly changeStream!: Observable<number>;
 	@Output("edit") public readonly editEvent = new EventEmitter();
 
 	protected getKey(item: IUser & IWrapper) { return item.id; }
