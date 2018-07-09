@@ -1,5 +1,4 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-list-header",
