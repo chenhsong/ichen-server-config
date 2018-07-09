@@ -3,7 +3,7 @@ import { Config } from "../app.config";
 
 export class CoreComponent
 {
-	private static PostHeaders = new Headers({ "Content-Type": "application/json" });
+	private static readonly PostHeaders = { headers: new Headers({ "Content-Type": "application/json" }) };
 
 	public isBusy = false;
 	public isError = false;
@@ -15,25 +15,17 @@ export class CoreComponent
 	protected async doGetJsonAsync<R extends object>(url: string)
 	{
 		const resp = await this.http.get(url).toPromise();
-
 		return resp.json() as R;
 	}
 
 	protected async doPostAsync(url: string, data: any)
 	{
-		return await this.http.post(url,
-			JSON.stringify(data),
-			{ headers: CoreComponent.PostHeaders }
-		).toPromise();
+		return await this.http.post(url, JSON.stringify(data), CoreComponent.PostHeaders).toPromise();
 	}
 
 	protected async doPostJsonAsync<R extends object>(url: string, data: any)
 	{
-		const resp = await this.http.post(url,
-			JSON.stringify(data),
-			{ headers: CoreComponent.PostHeaders }
-		).toPromise();
-
+		const resp = await this.http.post(url, JSON.stringify(data), CoreComponent.PostHeaders).toPromise();
 		return resp.json() as R;
 	}
 
