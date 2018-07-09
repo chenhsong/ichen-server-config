@@ -4,7 +4,7 @@ export class ItemBaseComponent<K, T extends object>
 {
 	@Input() public readonly i18n!: ITranslationDictionary;
 
-	@Input() public readonly info!: T & IWrapper;
+	@Input() public readonly info!: Wrapped<T>;
 	@Output("edit") public readonly editEvent = new EventEmitter();
 
 	protected getKey(item: T): K { throw new Error("Not implemented."); }

@@ -1,4 +1,4 @@
-﻿import { Http, Headers, Response } from "@angular/http";
+﻿import { Http } from "@angular/http";
 import { Subject } from "rxjs";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
@@ -6,9 +6,9 @@ import { Config } from "../app.config";
 export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dictionary<T>>
 {
 	public filter = "";
-	public newItem: (T & IWrapper) | null = null;
+	public newItem: Wrapped<T> | null = null;
 	public editingItem: T | null = null;
-	public readonly itemStream = new Subject<(T & IWrapper)[]>();
+	public readonly itemStream = new Subject<Wrapped<T>[]>();
 
 	constructor(http: Http) { super(http); }
 
@@ -20,7 +20,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		if (this.editingItem && !this.isEditing(this.editingItem, true)) this.editingItem = null;
 	}
 
-	protected getNewItem(): T & IWrapper
+	protected getNewItem(): Wrapped<T>
 	{
 		throw new Error("Not implemented.");
 	}
@@ -44,7 +44,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 
 	protected checkFilter(item: T, filter: string): boolean { throw new Error("Not implemented."); }
 
-	protected editItem(item: (T & IWrapper) | null)
+	protected editItem(item: Wrapped<T> | null)
 	{
 		if (this.isBusy) return;
 		if (item && item.isSaving) return;
@@ -54,7 +54,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 
 	protected get itemKeyField(): string { throw new Error("Not implemented."); }
 
-	protected sortList(list: (T & IWrapper)[]) { return list; }
+	protected sortList(list: Wrapped<T>[]) { return list; }
 
 	public async reloadAsync()
 	{
@@ -63,11 +63,11 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 
 		try {
 			const items: Dictionary<T> = await super.reloadAsync();
-			const list: (T & IWrapper)[] = [];
+			const list: Wrapped<T>[] = [];
 
 			for (const key in items) {
 				if (!items.hasOwnProperty(key)) continue;
-				const item = items[key] as T & IWrapper;
+				const item = items[key] as Wrapped<T>;
 				list.push(item);
 			}
 
@@ -103,7 +103,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		}
 	}
 
-	public async onSaveAsync(oldItem: T & IWrapper, newItem: T)
+	public async onSaveAsync(oldItem: Wrapped<T>, newItem: T)
 	{
 		this.editingItem = null;
 		oldItem.isSaving = true;
@@ -132,7 +132,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		}
 	}
 
-	public async onDeleteAsync(oldItem: T & IWrapper, item: T)
+	public async onDeleteAsync(oldItem: Wrapped<T>, item: T)
 	{
 		this.editingItem = null;
 		oldItem.isSaving = true;
@@ -157,5 +157,5 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 	}
 
 	// Do not regenerate list excessively
-	public trackItems(index: number, item: T & IWrapper) { return item.id; }
+	public trackItems(index: number, item: Wrapped<T>) { return item.id; }
 }
