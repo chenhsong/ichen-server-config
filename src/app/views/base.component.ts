@@ -1,13 +1,11 @@
 ﻿import { OnInit } from "@angular/core";
 import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
+import { CoreComponent } from "./core.component";
 
-export class BaseComponent<R extends object> implements OnInit
+export class BaseComponent<R extends object> extends CoreComponent implements OnInit
 {
-	public isBusy = false;
-	public isError = false;
-
-	constructor(protected http: Http) { }
+	constructor(http: Http) { super(http); }
 
 	public ngOnInit()
 	{

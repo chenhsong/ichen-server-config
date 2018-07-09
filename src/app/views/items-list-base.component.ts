@@ -5,14 +5,12 @@ import { Config } from "../app.config";
 
 export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dictionary<T>>
 {
-	private static PostHeaders = new Headers({ "Content-Type": "application/json" });
-
 	public filter = "";
 	public newItem: (T & IWrapper) | null = null;
 	public editingItem: T | null = null;
 	public readonly itemStream = new Subject<(T & IWrapper)[]>();
 
-	constructor(protected http: Http) { super(http); }
+	constructor(http: Http) { super(http); }
 
 	public filterChanged(text: string)
 	{
@@ -82,7 +80,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 			// Assume any error is failure to login
 			Config.jumpToPage();
 
-			throw err;
+			return <any>null;
 		}
 	}
 
@@ -92,10 +90,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		console.log("Adding new item", newItem);
 
 		try {
-			const resp = await this.http.post(this.urlGet,
-				JSON.stringify(newItem),
-				{ headers: ItemsListBaseComponent.PostHeaders }
-			).toPromise();
+			const resp = await this.doPostAsync(this.urlGet, newItem);
 
 			console.log("Item successfully added.", resp);
 			this.buildLoadingPipeline();
@@ -116,12 +111,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		console.log("Saving changes", newItem);
 
 		try {
-			const resp = await this.http.post(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`,
-				JSON.stringify(newItem),
-				{ headers: ItemsListBaseComponent.PostHeaders }
-			).toPromise();
-
-			const item = resp.json() as T;
+			const item = await this.doPostJsonAsync<T>(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`, newItem);
 
 			console.log("Changes successfully saved.", item);
 
@@ -150,7 +140,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		console.log("Deleting item", item);
 
 		try {
-			const r = await this.http.delete(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`).toPromise();
+			await this.doDeleteAsync(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`);
 
 			console.log("Item successfully deleted.", item);
 			this.buildLoadingPipeline();

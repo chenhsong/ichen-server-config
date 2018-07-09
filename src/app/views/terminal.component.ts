@@ -141,7 +141,6 @@ export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 	public isSaving = false;
 
 	public readonly isDebug = Config.isDebug;
-	public get i18n() { return Config.i18n; }
 	public readonly transform = Transform;
 
 	constructor(http: Http) { super(http); }
@@ -179,7 +178,7 @@ export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 			// Assume any error is failure to login
 			Config.jumpToPage();
 
-			throw err;
+			return <any>null;
 		}
 	}
 
@@ -260,11 +259,7 @@ export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 		this.isSaving = true;
 
 		try {
-			const resp = await this.http.post(this.urlPost,
-				JSON.stringify(this.configFile),
-				{ headers: new Headers({ "Content-Type": "application/json" }) }
-			).toPromise();
-
+			await this.doPostAsync(this.urlPost, this.configFile);
 			this.setDirty(false);
 		} catch {
 			this.isSaving = false;

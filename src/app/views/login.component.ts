@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http } from "@angular/http";
 import { Config } from "../app.config";
+import { CoreComponent } from "./core.component";
 
 @Component({
 	selector: "ichen-login",
@@ -38,16 +39,12 @@ import { Config } from "../app.config";
 		</div>
 	`
 })
-export class LoginComponent
+export class LoginComponent extends CoreComponent
 {
-	public get i18n() { return Config.i18n; }
-
 	public user: string | null = null;
 	public password: string | null = null;
-	public isBusy = false;
-	public isError = false;
 
-	constructor(private http: Http) { }
+	constructor(http: Http) { super(http); }
 
 	public get isValidUser() { return !!this.user && !!this.user.trim(); }
 	public get isValidPassword() { return !!this.password && !!this.password.trim(); }
@@ -60,18 +57,14 @@ export class LoginComponent
 		if (!this.user) return;
 		if (!this.password) return;
 
-		const login = { name: this.user, password: this.password };
-
 		this.isBusy = true;
 		this.isError = false;
 
 		try {
-			const resp = await this.http.post(Config.URL.login,
-				JSON.stringify(login),
-				{ headers: new Headers({ "Content-Type": "application/json" }) }
-			).toPromise();
-
-			const user = resp.json() as ILoggedInUser;
+			const user = await this.doPostJsonAsync<ILoggedInUser>(Config.URL.login, {
+				name: this.user,
+				password: this.password
+			});
 
 			console.log("Successfully logged in.", user);
 

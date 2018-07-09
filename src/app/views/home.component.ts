@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { Http } from "@angular/http";
 import { Config } from "../app.config";
+import { CoreComponent } from "./core.component";
 
 interface IStatus
 {
@@ -66,17 +67,16 @@ interface IStatus
 		<button type="button" (click)="doLogoutAsync()" class="btn btn-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;{{i18n.btnLogout}}</button>
 	`
 })
-export class HomeComponent implements OnDestroy
+export class HomeComponent extends CoreComponent implements OnDestroy
 {
-	public get i18n() { return Config.i18n; }
 	public status: IStatus | null = null;
 	public clientsList: { key: string; description: string; }[] | null = null;
 	public controllersList: { key: string; description: string; }[] | null = null;
-	public isBusy = false;
 	private refreshTask = 0;
 
-	constructor(private http: Http)
+	constructor(http: Http)
 	{
+		super(http);
 		this.refreshAsync();
 	}
 
@@ -90,7 +90,7 @@ export class HomeComponent implements OnDestroy
 		if (this.isBusy) return;
 		Config.currentUser = null;
 
-		await this.http.get(Config.URL.logout).toPromise();
+		await this.doGetJsonAsync<{}>(Config.URL.logout);
 		Config.jumpToPage();
 	}
 
@@ -101,24 +101,23 @@ export class HomeComponent implements OnDestroy
 		this.isBusy = true;
 
 		try {
-			const resp = await this.http.get(Config.URL.status).toPromise();
-			const r = resp.json() as IStatus;
+			const status = await this.doGetJsonAsync<IStatus>(Config.URL.status);
 
 			if (!this.refreshTask) this.refreshTask = setInterval(this.refreshAsync.bind(this), 5000);
 
-			if (r.started) r.started = new Date(r.started);
-			this.status = r;
+			if (status.started) status.started = new Date(status.started);
+			this.status = status;
 
-			if (r.clients) {
+			if (status.clients) {
 				this.clientsList = [];
-				for (const key in r.clients) this.clientsList.push({ key, description: r.clients[key] });
+				for (const key in status.clients) this.clientsList.push({ key, description: status.clients[key] });
 			} else {
 				this.clientsList = null;
 			}
 
-			if (r.controllers) {
+			if (status.controllers) {
 				this.controllersList = [];
-				for (const key in r.controllers) this.controllersList.push({ key, description: r.controllers[key] });
+				for (const key in status.controllers) this.controllersList.push({ key, description: status.controllers[key] });
 			} else {
 				this.controllersList = null;
 			}

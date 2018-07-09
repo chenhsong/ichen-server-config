@@ -63,8 +63,6 @@ export class UsersListComponent extends ItemsListBaseComponent<IUser>
 {
 	constructor(http: Http) { super(http); }
 
-	public get i18n() { return Config.i18n; }
-
 	protected checkFilter(user: IUser, filter: string)
 	{
 		const ftext = filter.toUpperCase();

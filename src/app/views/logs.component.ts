@@ -2,6 +2,7 @@
 import { Http } from "@angular/http";
 import { Config } from "../app.config";
 import { NullField } from "../components/fields";
+import { CoreComponent } from "./core.component";
 
 interface ILogLine
 {
@@ -132,7 +133,7 @@ interface ILogLine
 		</div>
 	`
 })
-export class LogsComponent implements OnInit
+export class LogsComponent extends CoreComponent implements OnInit
 {
 	public datesList: string[] | null = null;
 	public classesList: string[] | null = null;
@@ -140,13 +141,9 @@ export class LogsComponent implements OnInit
 	public selectedLevel = NullField.name;
 	public selectedClass = NullField.name;
 	public lines: ILogLine[] | null = null;
-	public isBusy = false;
-	public isError = false;
 	public format = "screen";
 
-	constructor(private http: Http) { }
-
-	public get i18n() { return Config.i18n; }
+	constructor(http: Http) { super(http); }
 
 	public async ngOnInit()
 	{
@@ -154,8 +151,7 @@ export class LogsComponent implements OnInit
 		this.isError = false;
 
 		try {
-			const resp = await this.http.get(Config.URL.logsList).toPromise();
-			this.datesList = resp.json() as string[];
+			this.datesList = await this.doGetJsonAsync<string[]>(Config.URL.logsList);
 			this.isError = false;
 		} catch (err) {
 			console.error(err);
@@ -182,10 +178,9 @@ export class LogsComponent implements OnInit
 		this.isError = false;
 
 		try {
-			const resp = await this.http.get(`${Config.URL.logFile}/${this.selectedDate}/info`).toPromise();
-			const r = resp.json();
+			const info = await this.doGetJsonAsync<{ classes?: string[]; }>(`${Config.URL.logFile}/${this.selectedDate}/info`);
 
-			const classes: string[] = r.classes || [];
+			const classes: string[] = info.classes || [];
 
 			this.classesList = classes;
 			this.selectedLevel = NullField.name;
@@ -217,8 +212,7 @@ export class LogsComponent implements OnInit
 			this.isError = false;
 
 			try {
-				const resp = await this.http.get(url).toPromise();
-				this.lines = resp.json() as ILogLine[];
+				this.lines = await this.doGetJsonAsync<ILogLine[]>(url);
 				this.lines.forEach(x => x.time = new Date(x.time));
 				this.isError = false;
 			} catch (err) {
