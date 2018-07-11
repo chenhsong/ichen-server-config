@@ -28,7 +28,7 @@ interface ILogLine
 				</div>
 			</div>
 
-			<div *ngIf="selectedDate && classesList" class="form-group col-md-5 col-lg-5">
+			<div *ngIf="selectedDate && classesList?.length" class="form-group col-md-5 col-lg-5">
 				<div class="input-group">
 					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelType}}</span></div>
 
@@ -48,7 +48,7 @@ interface ILogLine
 			</div>
 		</div>
 		<div *ngIf="!isError" class="row">
-			<div *ngIf="classesList" class="form-group col-md-9 col-lg-8">
+			<div *ngIf="classesList?.length" class="form-group col-md-9 col-lg-8">
 				<div class="input-group">
 					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelCategory}}</span></div>
 
@@ -65,7 +65,7 @@ interface ILogLine
 			</div>
 		</div>
 		<div *ngIf="!isError" class="row">
-			<div *ngIf="classesList" class="form-group col-sm-8">
+			<div *ngIf="classesList?.length" class="form-group col-sm-8">
 				<div class="input-group">
 					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelFormat}}</span></div>
 					<select class="form-control"
@@ -83,7 +83,7 @@ interface ILogLine
 			</div>
 
 			<div class="form-group col-sm-4">
-				<button *ngIf="selectedDate && classesList"
+				<button *ngIf="selectedDate && classesList?.length"
 					class="btn btn-primary text-center text-sm-left"
 					[disabled]="isBusy"
 					(click)="loadLogAsync()"
@@ -96,7 +96,7 @@ interface ILogLine
 			<span *ngIf="!lines.length" class="badge badge-danger">{{i18n.textNoLogs}}</span>
 		</h4>
 
-		<h4 *ngIf="selectedDate && !isBusy && !isError && !lines"><em>{{i18n.textPressGoToLoadLogs}}</em></h4>
+		<h4 *ngIf="selectedDate && !isBusy && !isError && !lines && classesList?.length"><em>{{i18n.textPressGoToLoadLogs}}</em></h4>
 
 		<div id="imgLoading" *ngIf="isBusy">
 			<img src="images/common/loading.gif" />
