@@ -1,14 +1,8 @@
-﻿import { Component, Input, Output, enableProdMode, ModuleWithProviders, ApplicationRef } from "@angular/core";
+﻿import { Component, Input, Output, enableProdMode, ApplicationRef } from "@angular/core";
 import { Location } from "@angular/common";
-import { RouterModule, Route, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Config, switchLanguage } from "./app.config";
 import { appRoutes } from "./app.routes";
-import { LoginComponent } from "./views/login.component";
-import { HomeComponent } from "./views/home.component";
-import { UsersListComponent } from "./views/users-list.component";
-import { ControllersListComponent } from "./views/controllers-list.component";
-import { TerminalComponent } from "./views/terminal.component";
-import { LogsComponent } from "./views/logs.component";
 
 enableProdMode();
 
@@ -20,7 +14,7 @@ if (location.toString().indexOf("debug") >= 0) Config.isDebug = true;
 		<header>
 			<div class="container">
 				<a href="/"><img id="logo-ichen" src="images/common/ichen_40_logo_small.png" /></a>
-				<a id="logo-ch" href="https://www.chenhsong.com"><img src="images/common/header_logo_dark.png" /><img class="d-none d-sm-inline" src="images/common/{{i18n.ch_logo}}.png" /></a>
+				<a id="logo-ch" href="https://chenhsong.com"><img src="images/common/header_logo_dark.png" /><img class="d-none d-sm-inline" src="images/common/{{i18n.ch_logo}}.png" /></a>
 				<span class="d-none d-md-inline">{{i18n.app_title_full}}<span *ngIf="isDebug"> (Debug Mode)</span></span>
 				<span class="d-md-none">{{i18n.app_title_short}}</span>
 			</div>

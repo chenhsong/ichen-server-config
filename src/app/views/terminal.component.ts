@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";

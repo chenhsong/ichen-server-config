@@ -73,9 +73,7 @@ import { MapFieldNamePipe } from "./components/map-field-name.pipe";
 		MapFieldNamePipe
 	],
 
-	providers: [
-		...appRoutingProviders
-	],
+	providers: [...appRoutingProviders],
 
 	bootstrap: [AppComponent]
 })

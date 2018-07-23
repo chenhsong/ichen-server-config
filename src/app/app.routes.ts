@@ -1,5 +1,5 @@
 ﻿import { ModuleWithProviders } from "@angular/core";
-import { RouterModule, Route, Router } from "@angular/router";
+import { RouterModule, Route } from "@angular/router";
 
 import { LoginComponent } from "./views/login.component";
 import { HomeComponent } from "./views/home.component";

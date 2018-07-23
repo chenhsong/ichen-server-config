@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { fieldNeedsSpecify, findFieldDef, StandardFields, CycleDataFields, DefaultField, NullField, AlarmsField } from "../components/fields";
+import { fieldNeedsSpecify, findFieldDef, StandardFields, CycleDataFields, DefaultField } from "../components/fields";
 
 const CustomValue = "__CUSTOM__";
 

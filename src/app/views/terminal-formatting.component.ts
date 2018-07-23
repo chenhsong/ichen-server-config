@@ -1,5 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MiscColors, BackgroundColors, TextColors, BorderColors, IColorDef } from "../components/colors";
 
 @Component({

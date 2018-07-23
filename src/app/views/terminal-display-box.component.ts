@@ -1,5 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Transform } from "../components/map-field-name.pipe";
 
 @Component({
