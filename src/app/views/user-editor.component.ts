@@ -125,7 +125,7 @@ export class UserEditorComponent implements OnInit
 		const flist = ((this.info && this.info.filters) || "").replace(/ /g, "").split(",") as Filters[];
 
 		for (const key of flist) {
-			(this.filters as any)[key] = true;
+			(this.filters as Dictionary<unknown>)[key] = true;
 		}
 	}
 

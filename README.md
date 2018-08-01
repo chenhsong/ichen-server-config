@@ -1,6 +1,6 @@
 # iChen&reg; System 4.1 Server Configuration UI
 
-Language: TypeScript 2.7 or above  
+Language: TypeScript 3.0 or above  
 Framework: Angular 6.0 or above  
 Major Packages: Bootstrap 4
 

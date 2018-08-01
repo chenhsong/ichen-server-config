@@ -18,12 +18,12 @@ export class CoreComponent
 		return resp.json() as R;
 	}
 
-	protected async doPostAsync(url: string, data: any)
+	protected async doPostAsync(url: string, data: unknown)
 	{
 		return await this.http.post(url, JSON.stringify(data), CoreComponent.PostHeaders).toPromise();
 	}
 
-	protected async doPostJsonAsync<R extends object>(url: string, data: any)
+	protected async doPostJsonAsync<R extends object>(url: string, data: unknown)
 	{
 		const resp = await this.http.post(url, JSON.stringify(data), CoreComponent.PostHeaders).toPromise();
 		return resp.json() as R;

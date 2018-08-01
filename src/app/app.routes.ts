@@ -1,4 +1,4 @@
-﻿import { ModuleWithProviders } from "@angular/core";
+﻿import { ModuleWithProviders, Provider } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
 
 import { LoginComponent } from "./views/login.component";
@@ -25,6 +25,6 @@ export const appRoutes: IRoute[] = [
 	{ path: "**", redirectTo: "/home", hidden: true }
 ];
 
-export const appRoutingProviders: any[] = [];
+export const appRoutingProviders: Provider[] = [];
 
-export const appRoutingModule: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const appRoutingModule = RouterModule.forRoot(appRoutes);

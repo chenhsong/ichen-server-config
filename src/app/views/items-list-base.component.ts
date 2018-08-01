@@ -62,7 +62,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		this.itemStream.next([]);
 
 		try {
-			const items: Dictionary<T> = await super.reloadAsync();
+			const items = await super.reloadAsync();
 			const list: Wrapped<T>[] = [];
 
 			for (const key in items) {
@@ -111,14 +111,14 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		console.log("Saving changes", newItem);
 
 		try {
-			const item = await this.doPostJsonAsync<T>(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`, newItem);
+			const item = await this.doPostJsonAsync<T>(`${this.urlGet}/${(oldItem as Dictionary<unknown>)[this.itemKeyField]}`, newItem);
 
 			console.log("Changes successfully saved.", item);
 
 			// Mixin the new item
 			for (const key in item) {
 				if (!item.hasOwnProperty(key)) continue;
-				(oldItem as any)[key] = (item as any)[key];
+				(oldItem as Dictionary<unknown>)[key] = (item as Dictionary<unknown>)[key];
 			}
 		} catch (err) {
 			console.error(err);
@@ -140,7 +140,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 		console.log("Deleting item", item);
 
 		try {
-			await this.doDeleteAsync(`${this.urlGet}/${(oldItem as any)[this.itemKeyField]}`);
+			await this.doDeleteAsync(`${this.urlGet}/${(oldItem as Dictionary<unknown>)[this.itemKeyField]}`);
 
 			console.log("Item successfully deleted.", item);
 			this.buildLoadingPipeline();

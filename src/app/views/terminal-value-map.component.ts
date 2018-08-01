@@ -54,7 +54,7 @@ export class TerminalValueMapComponent
 	public get isNotNegated() { return this.info.hasOwnProperty("value"); }
 	public get isNegated() { return this.info.hasOwnProperty("notValue"); }
 
-	public formatFieldValue(value: any)
+	public formatFieldValue(value: unknown)
 	{
 		const field = findFieldDef(this.info.field || this.defaultField);
 
@@ -66,13 +66,13 @@ export class TerminalValueMapComponent
 					case "Actions": return Actions.filter(x => x.id === value)[0].description;
 					case "Date": return (value as Date).toISOString();
 					case "boolean": return this.i18n[!!value ? "labelTrue" : "labelFalse"];
-					default: return value.toString();
+					default: return (value === null) ? "" : (value as any).toString();
 				}
 			} catch (error) {
-				return value.toString();
+				return (value === null) ? "" : (value as any).toString();
 			}
 		} else {
-			return value.toString();
+			return (value === null) ? "" : (value as any).toString();
 		}
 	}
 }

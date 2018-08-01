@@ -81,7 +81,7 @@ export class TerminalValueMapEditorComponent
 	@Input() public readonly backgroundColors = true;
 	@Output("valueMapChanged") public readonly changeEvent = new EventEmitter<Terminal.IClassMap>();
 	@Output("delete") public readonly deleteEvent = new EventEmitter<Terminal.IClassMap>();
-	@Output("close") public readonly closeEvent = new EventEmitter<any>();
+	@Output("close") public readonly closeEvent = new EventEmitter<void>();
 
 	public readonly console = console;
 	public readonly parseInt = parseInt;
@@ -115,7 +115,7 @@ export class TerminalValueMapEditorComponent
 		this.changeEvent.emit(this.info);
 	}
 
-	public changeValue(value: any, checkNothing = false)
+	public changeValue(value: unknown, checkNothing = false)
 	{
 		if (checkNothing && value === NullField.name) value = null;
 
