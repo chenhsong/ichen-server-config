@@ -99,7 +99,7 @@ export class ControllersListComponent extends ItemsListBaseComponent<IController
 			type: "Ai02",
 			model: "Unknown Model",
 			version: "Unknown",
-			IP: "127.0.0.1"
+			IP: "0.0.0.0:0"
 		} as IController & IWrapper;
 	}
 }

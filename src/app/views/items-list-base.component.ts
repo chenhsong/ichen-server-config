@@ -93,7 +93,8 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 			const resp = await this.doPostAsync(this.urlGet, newItem);
 
 			console.log("Item successfully added.", resp);
-			this.buildLoadingPipeline();
+
+			await this.reloadAsync();
 		} catch (err) {
 			console.error(err);
 			alert("Cannot add item! " + err);
@@ -143,7 +144,8 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 			await this.doDeleteAsync(`${this.urlGet}/${(oldItem as Dictionary<unknown>)[this.itemKeyField]}`);
 
 			console.log("Item successfully deleted.", item);
-			this.buildLoadingPipeline();
+
+			await this.reloadAsync();
 		} catch (err) {
 			console.error(err);
 			alert("Cannot delete item! " + err);

@@ -71,7 +71,7 @@ export class ControllerEditorComponent
 	@Input() public readonly type!: ControllerTypes;
 	@Input() public readonly model!: string;
 	@Input() public readonly version!: string;
-	@Input() public readonly IP = "127.0.0.1";
+	@Input() public readonly IP = "0.0.0.0:0";
 
 	@Output("close") public readonly closeEvent = new EventEmitter();
 	@Output("save") public readonly saveEvent = new EventEmitter<IController>();
