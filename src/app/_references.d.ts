@@ -11,7 +11,7 @@ type ControllerTypes = "Ai01" | "Ai02" | "Ai11" | "Ai12" | "CPC60" | "MPC60" | "
 interface Dictionary<T> { [key: string]: T; }
 interface DictionaryWithDefault<T extends object> extends Dictionary<T> { default: T; }
 
-interface ITranslationDictionary extends Dictionary<string> { }
+type ITranslationDictionary = { [key: string]: string; }
 
 interface IWrapper
 {

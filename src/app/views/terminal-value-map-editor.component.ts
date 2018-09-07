@@ -7,67 +7,7 @@ import Actions from "../components/actions";
 
 @Component({
 	selector: "ichen-terminal-value-map-editor",
-	template: `
-		<div class="card">
-			<div class="card-header badge-info">
-				<span (click)="closeEvent.emit()" class="ichen-close close float-right">&times;</span>
-				{{title}}
-			</div>
-			<div class="card-body">
-				<!-- Data field -->
-				<div *ngIf="!!info.field" class="input-group input-group-smxxx">
-					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelField}}</span></div>
-
-					<div class="form-control">{{transform(fieldType.name)}}</div>
-				</div>
-
-				<!-- Data entry -->
-				<div [ngSwitch]="fieldType?.type" class="input-group input-group-smxxx">
-					<div class="input-group-prepend"><span (click)="toggleNegated()" class="input-group-text negation">
-						<span *ngIf="!negated">{{i18n.labelEqualsTo}}</span>
-						<span *ngIf="negated">{{i18n.labelNotEqualsTo}}</span>
-					</span></div>
-
-					<div *ngSwitchCase="'null'" class="form-control"></div>
-					<div *ngSwitchCase="'boolean'" class="form-control">
-						<input name="input-value" type="checkbox" [ngModel]="!!currValue" (change)="changeValue(!!$event.target.checked)" />
-						&nbsp;&nbsp;
-						<span>{{i18n[!!currValue ? "labelTrue" : "labelFalse"]}}</span>
-					</div>
-					<input name="input-value" *ngSwitchCase="'string'" placeholder="{{i18n.labelBlank}}" [ngModel]="currValue?.toString()||''" (change)="changeValue($event.target.value)" class="form-control" />
-					<input name="input-value" *ngSwitchCase="'ID'" placeholder="{{i18n.labelNothing}}" [ngModel]="currValue?.toString()" (change)="changeValue(!$event.target.value.trim()?null:parseFloat($event.target.value))" class="form-control" />
-					<input name="input-value" *ngSwitchCase="'number'" placeholder="{{i18n.labelNothing}}" [ngModel]="currValue?.toString()" (change)="changeValue(!$event.target.value.trim()?null:parseFloat($event.target.value))" class="form-control" />
-					<input name="input-value" *ngSwitchCase="'Date'" [ngModel]="currValue?.toString()" (change)="changeValue($event.target.value)" class="form-control" />
-					<select name="input-value" *ngSwitchCase="'OpModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="custom-select">
-							<option value="null">{{i18n.labelNothing}}</option>
-							<option *ngFor="let opt of opModes" value="{{opt.name}}">{{i18n[opt.description]}}</option>
-					</select>
-					<select name="input-value" *ngSwitchCase="'JobModes'" [ngModel]="currValue||'null'" (change)="changeValue($event.target.value,true)" class="custom-select">
-							<option value="null">{{i18n.labelNothing}}</option>
-							<option *ngFor="let opt of jobModes" value="{{opt.name}}">{{i18n[opt.description]}}</option>
-					</select>
-					<select name="input-value" *ngSwitchCase="'Actions'" [ngModel]="currValue?.toString()||'0'" (change)="changeValue($event.target.value=='0'?null:parseInt($event.target.value,10),true)" class="custom-select">
-							<option value="0">{{i18n.labelNothing}}</option>
-							<option *ngFor="let opt of actions" value="{{opt.id}}">{{i18n[opt.description]}}</option>
-					</select>
-					<div *ngSwitchDefault class="form-control">{{i18n.labelUnknown}}</div>
-				</div>
-
-				<!-- Formatting -->
-				<ichen-terminal-formatting [i18n]="i18n"
-					[classes]="info.class"
-					[textColors]="textColors"
-					[backgroundColors]="backgroundColors"
-					(classesChanged)="info.class=$event; changeEvent.emit(info);">
-				</ichen-terminal-formatting>
-			</div>
-
-			<div class="card-footer buttons-strip">
-				<button type="button" (click)="deleteEvent.emit(info)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{{i18n.btnDelete}}</button>
-				<button type="button" (click)="closeEvent.emit()" class="btn btn-sm btn-secondary last"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;{{i18n.btnClose}}</button>
-			</div>
-		</div>
-	`
+	templateUrl: "../templates/terminal-value-map-editor.component.html"
 })
 export class TerminalValueMapEditorComponent
 {

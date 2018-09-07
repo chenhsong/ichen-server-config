@@ -1,0 +1,121 @@
+<div class="ichen-terminal row" *ngIf="configFile">
+	<div class="col-11 col-md-5 col-lg-4">
+		<!-- Display Box -->
+		<ichen-terminal-display-box [i18n]="i18n" [lines]="configFile?.controllers?.default?.lines" [selected]="selectedLine"
+		                            (lineSelected)="selectLine($event)" (displayChanged)="setDirty()" [class.frame-selected]="frameSelected"></ichen-terminal-display-box>
+
+		<div>&nbsp;</div>
+
+		<!-- New line dialog -->
+		<ichen-terminal-add-field *ngIf="newEnabled" [i18n]="i18n" [title]="i18n.labelAddNewLine" [useMinMax]="true" (add)="addNewLine($event)"
+		                          (close)="newEnabled=false"></ichen-terminal-add-field>
+
+		<!-- New line/Delete line buttons -->
+		<div *ngIf="!newEnabled && !frameSelected" class="col p-x-0 buttons-strip" style="width:140%;margin:0 -20%;">
+			<button type="button" (click)="newEnabled=true; selectedLine=null" class="btn btn-sm btn-success">
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;{{i18n.btnNew}}
+			</button>
+
+			&nbsp;&nbsp;&nbsp;
+
+			<button type="button" *ngIf="!!selectedLine" (click)="deleteLine(selectedLine)" class="btn btn-sm btn-danger">
+				<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{{i18n.btnDeleteLine}}
+			</button>
+		</div>
+
+		<!-- Save button -->
+		<div class="col p-x-0 buttons-strip">
+			<br />
+			<button type="button" (click)="saveConfigFileAsync()" [disabled]="!isDirty||isSaving" class="btn btn-success">
+				<span *ngIf="!isSaving" class="glyphicon glyphicon-floppy-disk"><img *ngIf="isSaving" width="18" src="images/common/loading.gif" /></span>&nbsp;&nbsp;{{i18n.btnSaveChanges}}
+			</button>
+			<br />
+		</div>
+
+		<div>&nbsp;</div>
+	</div>
+
+	<div class="clearfix d-md-none"></div>
+
+	<div class="col-md-7 col-lg-8">
+		<div [hidden]="!frameSelected">
+			<!-- Value maps -->
+			<ichen-terminal-value-maps-list [i18n]="i18n" [line]="configFile?.controllers?.default" [title]="i18n.labelFrameStyles"
+			                                [textColors]="false" (listChanged)="setDirty()"></ichen-terminal-value-maps-list>
+
+			<div *ngIf="isDebug">{{configFile?.controllers?.default?.maps|json}}</div>
+		</div>
+
+		<!-- Line formatting -->
+		<div [hidden]="!selectedLine" class="ichen-terminal-line-format">
+			<!-- Basic formatting -->
+			<div class="card ichen-terminal-line-format-base">
+				<div class="card-header badge-primary">{{transform(selectedLine?.field)}}</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="ichen-edit-formatting form-group col">
+							<ichen-terminal-formatting [i18n]="i18n" [classes]="selectedLine?.class" (classesChanged)="selectedLine.class=$event; setDirty()"></ichen-terminal-formatting>
+						</div>
+					</div>
+
+					<div *ngIf="selectedLine?.min!=null||selectedLine?.max!=null">
+						<div class="row">
+							<div *ngIf="selectedLine?.min!=null" class="form-group col-sm-6">
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+										<span class="input-group-text">{{i18n.labelMin}}</span>
+									</div>
+									<div class="form-control">
+										<span>{{transform(selectedLine?.min?.toString())}}</span>
+									</div>
+								</div>
+							</div>
+
+							<div *ngIf="selectedLine?.max!=null" class="form-group col-sm-6">
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+										<span class="input-group-text">{{i18n.labelMax}}</span>
+									</div>
+									<div class="form-control">
+										<span>{{transform(selectedLine?.max?.toString())}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col">
+								<ichen-terminal-formatting [i18n]="i18n" [title]="i18n.labelOverlayBarColor" [textColors]="false" [classes]="selectedLine?.overlay"
+								                           (classesChanged)="selectedLine.overlay=$event; setDirty()"></ichen-terminal-formatting>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="ichen-edit-alwaysShow form-group col-5">
+							<div class="input-group input-group-sm">
+								<div class="form-control justify-content-center">
+									<input name="input-show-always" type="checkbox" [ngModel]="selectedLine?.showAlways" (change)="selectedLine.showAlways=$event.target.checked; setDirty()" />
+								</div>
+								<div class="input-group-append">
+									<span class="input-group-text" [class.badge-success]="selectedLine?.showAlways">{{i18n.labelShowAlways}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Value maps -->
+			<ichen-terminal-value-maps-list [i18n]="i18n" [line]="selectedLine" [title]="i18n.labelValueStyles" (listChanged)="setDirty()">
+			</ichen-terminal-value-maps-list>
+
+			<div *ngIf="isDebug">{{selectedLine|json}}</div>
+		</div>
+	</div>
+</div>
+
+<div id="imgLoading" *ngIf="isBusy" class="text-center">
+	<img src="images/common/loading.gif" />
+</div>
+
+<div id="imgError" *ngIf="isError"><img src="images/common/error.png" /></div>

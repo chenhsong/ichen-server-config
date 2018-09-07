@@ -3,51 +3,7 @@ import { findFieldDef } from "../components/fields";
 
 @Component({
 	selector: "ichen-terminal-value-maps-list",
-	template: `
-		<div class="card">
-			<div class="card-header badge-primary">{{title}}</div>
-			<div class="card-body ichen-terminal-value-map ichen-list-container">
-				<div *ngFor="let map of line?.maps">
-					<ichen-terminal-value-map [i18n]="i18n"
-						class="ichen-terminal-value-map ichen-list-item"
-						[info]="map"
-						[defaultField]="line?.field"
-						[defaultClasses]="line?.class"
-						[textColors]="textColors"
-						[backgroundColors]="backgroundColors"
-						*ngIf="isEditing(map,false)"
-						(edit)="editItem(map)">
-					</ichen-terminal-value-map>
-
-					<ichen-terminal-value-map-editor [i18n]="i18n"
-						class="ichen-terminal-value-map ichen-edit ichen-list-item"
-						[title]="i18n.labelEditValueMap"
-						[info]="map"
-						[isAdd]="false"
-						[fieldType]="findField(map.field || line?.field)"
-						[negated]="isNegated(map)"
-						[textColors]="textColors"
-						[backgroundColors]="backgroundColors"
-						*ngIf="isEditing(map,true)"
-						(valueMapChanged)="changeEvent.emit(line)"
-						(delete)="onDelete($event)"
-						(close)="editItem(null)">
-					</ichen-terminal-value-map-editor>
-				</div>
-
-				<!-- New value map dialog -->
-				<ichen-terminal-add-field *ngIf="newEnabled" [i18n]="i18n"
-					[title]="i18n.labelAddNewValueMap"
-					[useDefault]="line?.field"
-					(add)="onAdd($event)"
-					(close)="newEnabled=false">
-				</ichen-terminal-add-field>
-
-				<!-- New value map button -->
-				<button type="button" *ngIf="!newEnabled" (click)="newEnabled=true" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;{{i18n.btnNewValueMap}}</button>
-			</div>
-		</div>
-	`
+	templateUrl: "../templates/terminal-value-maps-list.component.html"
 })
 export class TerminalValueMapsListComponent
 {

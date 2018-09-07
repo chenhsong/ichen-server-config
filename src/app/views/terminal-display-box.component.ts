@@ -3,26 +3,7 @@ import { Transform } from "../components/map-field-name.pipe";
 
 @Component({
 	selector: "ichen-terminal-display-box",
-	template: `
-		<terminal-controller class="ichen-terminal ichen-terminal-frame ctrl">
-			<div class="ctrl-frame" (click)="selectLine(null)">
-				<div class="frame-label">{{i18n.textClickForFrameStyles}}</div>
-				<div *ngFor="let line of lines; let i=index"
-				     class="ichen-terminal ichen-terminal-line ctrl-item {{line.class}} {{isSelected(line) ? 'selected' : ''}}"
-				     (click)="selectLine(line);$event.stopPropagation();">
-
-					<span class="ichen-terminal ichen-terminal-line ichen-terminal-line-field">{{transform(line.field)}}</span>
-
-					<div class="ichen-terminal-line-marker-left glyphicon glyphicon-chevron-right" *ngIf="isSelected(line)"></div>
-					<div class="ichen-terminal-line-marker-right" *ngIf="isSelected(line)"
-						><span (click)="moveLine(i,-1)" class="glyphicon glyphicon-arrow-up" [class.disabled]="i<=0"></span
-						><span (click)="moveLine(i,1)" class="glyphicon glyphicon-arrow-down" [class.disabled]="i>=lines.length-1"></span
-					></div>
-				</div>
-				<div class="ctrl-item ctrl-item-separator"></div>
-			</div>
-		</terminal-controller>
-	`
+	templateUrl: "../templates/terminal-display-box.component.html"
 })
 export class TerminalDisplayBoxComponent
 {

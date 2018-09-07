@@ -1,0 +1,25 @@
+<ichen-list-header [i18n]="i18n" [newEnabled]="!isBusy&&!isEditing(newItem,true)" [newVisible]="true" (new)="createNew()"
+                   [reloadEnabled]="!isBusy" [reloadVisible]="!isEditing(newItem,true)" (reload)="reloadAsync()"
+                   [filterEnabled]="!isBusy&&!isError" [filterVisible]="!isEditing(newItem,true)" (filterChanged)="filterChanged($event)"></ichen-list-header>
+
+<div id="imgLoading" *ngIf="isBusy" class="text-center">
+	<img src="images/common/loading.gif" />
+</div>
+
+<div id="imgError" *ngIf="isError"><img src="images/common/error.png" /></div>
+
+<ichen-controller-editor [i18n]="i18n" class="ichen-controller ichen-edit" [title]="i18n.labelNewMachine" *ngIf="isEditing(newItem,true)"
+                         (save)="onAddAsync($event)" (close)="editItem(null)"></ichen-controller-editor>
+
+<div class="ichen-controller ichen-list-container">
+	<div *ngFor="let controller of itemStream|async; trackBy:trackItems">
+		<ichen-controller [i18n]="i18n" class="ichen-controller ichen-list-item" [info]="controller" *ngIf="isEditing(controller,false)"
+		                  (edit)="editItem(controller)"></ichen-controller>
+
+		<ichen-controller-editor [i18n]="i18n" class="ichen-controller ichen-edit ichen-list-item" [title]="i18n.labelEditMachine+': '+controller.name+' ('+controller.model+', '+controller.type+') @ '+controller.IP"
+		                         [info]="controller" [id]="controller.id.toString()" [name]="controller.name" [enabled]="controller.isEnabled"
+		                         [type]="controller.type" [model]="controller.model" [version]="controller.version" [IP]="controller.IP"
+		                         *ngIf="isEditing(controller,true)" (save)="onSaveAsync(controller,$event)" (delete)="onDeleteAsync(controller,$event)"
+		                         (close)="editItem(null)"></ichen-controller-editor>
+	</div>
+</div>

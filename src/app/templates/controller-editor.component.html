@@ -1,0 +1,46 @@
+<form class="card">
+	<div class="card-header badge-primary">
+		<span (click)="closeEvent.emit()" class="ichen-close close float-right">&times;</span>
+		{{title}}
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="ichen-edit-id form-group col-md-5" [class.has-danger]="!isNumeric(id)">
+				<div class="input-group">
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelSerialNum}}</span></div>
+
+					<input type="text" class="form-control form-control-danger" placeholder="{{i18n.textMachineSerialNum}}" [disabled]="!!info"
+					       name="input-id" [(ngModel)]="id" (input)="dirty=true" (change)="$event.target.value=isNumeric(id)?parseInt(id.trim(),10).toString():id.trim()" />
+				</div>
+			</div>
+
+			<div class="col-md-4"></div>
+
+			<div class="ichen-edit-isEnabled form-group col-md-3">
+				<div class="input-group">
+					<div class="form-control"><input type="checkbox" name="input-enabled" (change)="dirty=true" [(ngModel)]="enabled" /></div>
+					<div class="input-group-append"><span class="input-group-text justify-content-center badge-success" *ngIf="enabled">{{i18n.labelEnabled}}</span><span
+						      class="input-group-text justify-content-center badge-danger" *ngIf="!enabled">{{i18n.labelDisabled}}</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="ichen-edit-name form-group col" [class.has-danger]="!isInputValid(name)">
+				<div class="input-group">
+					<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMachineName}}</span></div>
+
+					<input type="text" class="form-control form-control-danger" placeholder="{{i18n.textMachineName}}" name="input-name"
+					       [(ngModel)]="name" (input)="dirty=true" (change)="$event.target.value=name.trim()" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer buttons-strip">
+		<button type="submit" [disabled]="!canSave()" (click)="onSave($event)" class="btn btn-success first"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;{{i18n.btnSave}}</button>
+		<button type="button" *ngIf="!!info" (click)="onDelete($event)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{{i18n.btnDelete}}</button>
+		<button type="button" (click)="closeEvent.emit()" class="btn btn-secondary last"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;{{i18n.btnCancel}}</button>
+		<div class="clearfix"></div>
+	</div>
+</form>

@@ -1,0 +1,34 @@
+<div class="input-group input-group-{{large?'':'smxxx'}}">
+	<div class="input-group-prepend"><span class="input-group-text">
+			{{title}}
+			<span *ngIf="!title" class="glyphicon glyphicon-text-background"></span>
+		</span></div>
+
+	<div class="form-control sample-text ichen-terminal-color {{classes}} text-center">
+		<span *ngIf="textColors">{{i18n.labelTextSample}}</span>
+		<span *ngIf="!textColors">&nbsp;</span>
+	</div>
+
+	<select *ngIf="backgroundColors" name="input-background" class="custom-select" [ngModel]="getColor('B')" (change)="setColor('B',$event.target.value)">
+		<option *ngFor="let opt of colorDefs.BackgroundColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelBackground}}</option>
+	</select>
+
+	<select *ngIf="textColors" name="input-color" class="custom-select" [ngModel]="getColor('T')" (change)="setColor('T',$event.target.value)">
+		<option *ngFor="let opt of colorDefs.TextColors" value="{{opt.name}}">{{i18n[opt.description]}}{{i18n.labelText}}</option>
+	</select>
+
+	<div *ngIf="textColors" class="input-group-append">
+		<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasBold(classes) ? 'primary' : 'outline-secondary')"
+		        (click)="toggleClass('text-bold')">
+			<span class="glyphicon glyphicon-bold"></span>
+		</button>
+		<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasItalics(classes) ? 'primary' : 'outline-secondary')"
+		        (click)="toggleClass('text-italics')">
+			<span class="glyphicon glyphicon-italic"></span>
+		</button>
+		<button type="button" class="btn btn-sm" [class]="'btn btn-sm btn-'+(hasBlink(classes) ? 'primary' : 'outline-secondary')"
+		        (click)="toggleClass('blink')">
+			<span class="glyphicon glyphicon-flash"></span>
+		</button>
+	</div>
+</div>

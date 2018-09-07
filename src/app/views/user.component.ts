@@ -4,29 +4,7 @@ import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-user",
-	template: `
-		<div class="input-group input-group-sm">
-			<div class="input-group-prepend"><div class="input-group-text ichen-user-name" [class.badge-danger]="info.isError">
-				<img *ngIf="info.isSaving" class="extra-content" src="images/common/loading.gif" />
-				<span>{{info.name}} (<span [ngClass]="{'text-danger':info.accessLevel<=0}">{{info.accessLevel}}</span>)</span>
-			</div></div>
-			<div class="form-control" [ngClass]="{'disabled':!info.isEnabled}">
-				<div class="fill">
-					<span *ngIf="isAdmin" class="admin-account glyphicon glyphicon-lock"></span>
-					<span *ngIf="!isAdmin">
-						<span *ngIf="info.isEnabled" class="text-success glyphicon glyphicon-ok"></span>
-						<span *ngIf="!info.isEnabled" class="text-danger glyphicon glyphicon-remove"></span>
-					</span>
-					&nbsp;
-					<span class="ichen-user-password">{{info.password}}</span>
-					<span class="extra-content">{{filtersText}}</span>
-				</div>
-			</div>
-			<div class="input-group-append">
-				<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-outline-secondary"><span class="glyphicon glyphicon-pencil"></span></button>
-			</div>
-		</div>
-	`
+	templateUrl: "../templates/user.component.html"
 })
 export class UserComponent extends ItemBaseComponent<number, IUser>
 {

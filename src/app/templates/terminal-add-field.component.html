@@ -1,0 +1,72 @@
+<div class="card">
+	<div class="card-header badge-success">
+		<span (click)="closeEvent.emit()" class="ichen-close close float-right">&times;</span>
+		{{title}}
+	</div>
+
+	<div class="card-body">
+		<div class="input-group">
+			<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelField}}</span></div>
+
+			<select (change)="field=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
+				<option *ngIf="useDefault" value="unset">{{i18n.labelUseDefault}}</option>
+				<optgroup label="{{i18n.labelStandardFields}}">
+					<option *ngFor="let opt of StandardFields" value="{{opt.name}}">{{i18n[opt.description]}}</option>
+				</optgroup>
+				<optgroup label="{{i18n.labelCycleDataFields}}">
+					<option *ngFor="let opt of CycleDataFields" value="{{opt.name}}">{{i18n[opt.description]}}</option>
+				</optgroup>
+				<option *ngIf="true" value="alarms?.">{{i18n.labelFieldAlarms}}</option>
+			</select>
+		</div>
+
+		<div *ngIf="useMinMax && isNumericField">
+			<div class="input-group">
+				<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMin}}</span></div>
+
+				<select #minMode (change)="min=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
+					<option value="null">{{i18n.labelNothing}}</option>
+					<option value="__CUSTOM__">{{i18n.labelCustomValue}}</option>
+					<option value="_0">0</option>
+					<option value="_1">1</option>
+					<option value="_100">100</option>
+					<option *ngFor="let opt of CycleDataFields|isNumeric" value="{{opt.name}}">{{i18n[opt.description]}}</option>
+				</select>
+				<input *ngIf="minMode.value=='__CUSTOM__'" (change)="$event.target.value=minValue=parseFloat($event.target.value)"
+				       class="form-control" />
+			</div>
+
+			<div class="input-group">
+				<div class="input-group-prepend"><span class="input-group-text">{{i18n.labelMax}}</span></div>
+
+				<select #maxMode (change)="max=$event.target.value" class="form-control custom-select p-y-0 p-l-0">
+					<option value="null">{{i18n.labelNothing}}</option>
+					<option value="__CUSTOM__">{{i18n.labelCustomValue}}</option>
+					<option value="_0">0</option>
+					<option value="_1">1</option>
+					<option value="_100">100</option>
+					<option *ngFor="let opt of CycleDataFields|isNumeric" value="{{opt.name}}">{{i18n[opt.description]}}</option>
+				</select>
+
+				<input *ngIf="maxMode.value=='__CUSTOM__'" (change)="$event.target.value=maxValue=parseFloat($event.target.value)"
+				       class="form-control" />
+			</div>
+		</div>
+
+		<div *ngIf="fieldNeedsSpecify" class="input-group has-feedback" [class.has-error]="!validAlarmName">
+			<div class="input-group-prepend"><span class="input-group-text negation">{{i18n.labelFieldAlarmName}}</span></div>
+			<input (input)="alarmName=$event.target.value" (change)="alarmName=$event.target.value" class="form-control" />
+			<span *ngIf="!validAlarmName" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+		</div>
+	</div>
+
+	<div class="card-footer buttons-strip">
+		<button type="button" [disabled]="fieldNeedsSpecify && !validAlarmName" (click)="doAdd()" class="btn btn-sm btn-success first">
+			<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;{{i18n.btnAdd}}
+		</button>
+		<button type="button" (click)="closeEvent.emit()" class="btn btn-sm btn-secondary last">
+			<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;{{i18n.btnCancel}}
+		</button>
+		<div class="clearfix"></div>
+	</div>
+</div>
