@@ -120,7 +120,7 @@ export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 	{
 		if (!line) return;
 
-		if (!confirm(this.i18n.labelConfirmDeleteLine.replace("{0}", this.transform(line.field)))) return;
+		if (!confirm(this.i18n.textConfirmDeleteLine.replace("{0}", this.transform(line.field)))) return;
 
 		const n = this.configFile.controllers.default.lines.indexOf(line);
 		if (n < 0) return;
