@@ -3,8 +3,6 @@
 	export default value;
 }
 
-type unknown = any;
-
 type Filters = "None" | "Status" | "Cycle" | "Mold" | "Actions" | "Alarms" | "Audit" | "JobCards" | "Operators" | "All";
 type ControllerTypes = "Ai01" | "Ai02" | "Ai11" | "Ai12" | "CPC60" | "MPC60" | "CDC2000" | "CDC3000" | "CDC2000WIN" | "SPS3300" | "NewAge" | "CBmold300" | "CBmold800" | "Unknown";
 
