@@ -39,7 +39,7 @@ export class LoginComponent extends CoreComponent
 			this.isBusy = false;
 			this.isError = false;
 
-			if (!user.roles || user.roles.indexOf("All") < 0) {
+			if (user.roles.indexOf("All") < 0) {
 				alert(this.i18n.textNoAuthority);
 				this.isError = true;
 				Config.currentUser = null;

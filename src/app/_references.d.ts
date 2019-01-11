@@ -20,22 +20,6 @@ interface IWrapper
 
 type Wrapped<T extends object> = T & IWrapper;
 
-interface ILoggedInUser
-{
-	sessionId: string;
-	started: string;
-	lastAccessed: string;
-	filters?: string;
-	roles: string[];
-	id: number;
-	password: string;
-	name: string;
-	isEnabled: boolean;
-	accessLevel: number;
-	created: string;
-	modified?: string;
-}
-
 interface IUser
 {
 	id: number;
@@ -44,6 +28,11 @@ interface IUser
 	isEnabled: boolean;
 	accessLevel: number;
 	filters: string;
+}
+
+interface ILoggedInUser extends IUser
+{
+	roles: string[];
 }
 
 type IUsers = Dictionary<IUser>;
