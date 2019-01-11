@@ -5,6 +5,7 @@ import { Transform } from "../components/map-field-name.pipe";
 import OpModes from "../components/op-modes";
 import JobModes from "../components/job-modes";
 import Actions from "../components/actions";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-terminal-value-map",
@@ -12,8 +13,6 @@ import Actions from "../components/actions";
 })
 export class TerminalValueMapComponent
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly info!: Terminal.IClassMap;
 	@Input() public readonly defaultField: string | null = null;
 	@Input() public readonly defaultClasses: string | null = null;
@@ -26,6 +25,8 @@ export class TerminalValueMapComponent
 	public readonly borderColorsMap = BorderColorsMap;
 
 	public readonly transform = Transform;
+
+	public get i18n() { return Config.i18n; }
 
 	public get infoValue()
 	{

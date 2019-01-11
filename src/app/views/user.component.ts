@@ -8,8 +8,6 @@ import { Config } from "../app.config";
 })
 export class UserComponent extends ItemBaseComponent<number, IUser>
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly info!: IUser & IWrapper;
 	@Input() public readonly name = "";
 	@Input() public readonly password = "";
@@ -17,6 +15,8 @@ export class UserComponent extends ItemBaseComponent<number, IUser>
 	@Input() public readonly enabled = true;
 	@Input() public readonly isAdmin = false;
 	@Output("edit") public readonly editEvent = new EventEmitter();
+
+	public get i18n() { return Config.i18n; }
 
 	protected getKey(item: IUser & IWrapper) { return item.id; }
 

@@ -1,4 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-list-header",
@@ -6,7 +7,6 @@
 })
 export class ListHeaderComponent
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
 	@Input() public readonly newEnabled = true;
 	@Input() public readonly newVisible = true;
 	@Input() public readonly reloadEnabled = true;
@@ -17,4 +17,6 @@ export class ListHeaderComponent
 	@Output("new") public readonly newEvent = new EventEmitter();
 	@Output("reload") public readonly reloadEvent = new EventEmitter();
 	@Output("filterChanged") public readonly filterChangedEvent = new EventEmitter<string>();
+
+	public get i18n() { return Config.i18n; }
 }

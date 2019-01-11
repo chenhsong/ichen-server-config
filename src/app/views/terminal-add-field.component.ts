@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { fieldNeedsSpecify, findFieldDef, StandardFields, CycleDataFields, DefaultField } from "../components/fields";
+import { Config } from "../app.config";
 
 const CustomValue = "__CUSTOM__";
 
@@ -9,8 +10,6 @@ const CustomValue = "__CUSTOM__";
 })
 export class TerminalAddFieldComponent implements OnInit
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly title!: string;
 	@Input() public readonly useDefault = false;
 	@Input() public readonly useMinMax = false;
@@ -27,6 +26,8 @@ export class TerminalAddFieldComponent implements OnInit
 	public readonly StandardFields = StandardFields;
 	public readonly CycleDataFields = CycleDataFields;
 	public readonly parseFloat = parseFloat;
+
+	public get i18n() { return Config.i18n; }
 
 	public ngOnInit()
 	{

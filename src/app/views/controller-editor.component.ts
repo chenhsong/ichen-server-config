@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import ControllerTypes from "../components/controllers";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-controller-editor",
@@ -7,8 +8,6 @@ import ControllerTypes from "../components/controllers";
 })
 export class ControllerEditorComponent
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly title: string | null = null;
 	@Input() public readonly info!: IController;
 	@Input() public id = "";
@@ -22,6 +21,8 @@ export class ControllerEditorComponent
 	@Output("close") public readonly closeEvent = new EventEmitter();
 	@Output("save") public readonly saveEvent = new EventEmitter<IController>();
 	@Output("delete") public readonly deleteEvent = new EventEmitter<IController>();
+
+	public get i18n() { return Config.i18n; }
 
 	public dirty = false;
 	public readonly controllerTypes = ControllerTypes;

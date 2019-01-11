@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MiscColors, BackgroundColors, TextColors, BorderColors, IColorDef } from "../components/colors";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-terminal-formatting",
@@ -7,8 +8,6 @@ import { MiscColors, BackgroundColors, TextColors, BorderColors, IColorDef } fro
 })
 export class TerminalFormattingComponent
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly title: string | null = null;
 	@Input() public readonly large = false;
 	@Input() public readonly classes!: string;
@@ -20,6 +19,8 @@ export class TerminalFormattingComponent
 	public readonly hasBold: (classes: string) => boolean;
 	public readonly hasItalics: (classes: string) => boolean;
 	public readonly hasBlink: (classes: string) => boolean;
+
+	public get i18n() { return Config.i18n; }
 
 	constructor()
 	{

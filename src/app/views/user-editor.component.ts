@@ -1,4 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-user-editor",
@@ -6,8 +7,6 @@
 })
 export class UserEditorComponent implements OnInit
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly title: string | null = null;
 	@Input() public readonly info!: IUser;
 	@Input() public name = "";
@@ -18,6 +17,8 @@ export class UserEditorComponent implements OnInit
 	@Output("close") public readonly closeEvent = new EventEmitter();
 	@Output("save") public readonly saveEvent = new EventEmitter<IUser>();
 	@Output("delete") public readonly deleteEvent = new EventEmitter<IUser>();
+
+	public get i18n() { return Config.i18n; }
 
 	public dirty = false;
 	public filters: IFilters = {

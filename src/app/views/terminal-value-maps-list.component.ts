@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { findFieldDef } from "../components/fields";
+import { Config } from "../app.config";
 
 @Component({
 	selector: "ichen-terminal-value-maps-list",
@@ -7,8 +8,6 @@ import { findFieldDef } from "../components/fields";
 })
 export class TerminalValueMapsListComponent
 {
-	@Input() public readonly i18n!: ITranslationDictionary;
-
 	@Input() public readonly line!: Terminal.ILineConfig;
 	@Input() public readonly title = "Value styles";
 	@Input() public readonly textColors = true;
@@ -19,6 +18,8 @@ export class TerminalValueMapsListComponent
 	public newEnabled = false;
 
 	public readonly findField = findFieldDef;
+
+	public get i18n() { return Config.i18n; }
 
 	public isNotNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("value"); }
 	public isNegated(map: Terminal.IClassMap) { return map.hasOwnProperty("notValue"); }

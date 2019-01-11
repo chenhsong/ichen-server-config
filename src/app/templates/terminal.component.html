@@ -1,13 +1,13 @@
 <div class="ichen-terminal row" *ngIf="configFile">
 	<div class="col-11 col-md-5 col-lg-4">
 		<!-- Display Box -->
-		<ichen-terminal-display-box [i18n]="i18n" [lines]="configFile?.controllers?.default?.lines" [selected]="selectedLine"
+		<ichen-terminal-display-box [lines]="configFile?.controllers?.default?.lines" [selected]="selectedLine"
 		                            (lineSelected)="selectLine($event)" (displayChanged)="setDirty()" [class.frame-selected]="frameSelected"></ichen-terminal-display-box>
 
 		<div>&nbsp;</div>
 
 		<!-- New line dialog -->
-		<ichen-terminal-add-field *ngIf="newEnabled" [i18n]="i18n" [title]="i18n.labelAddNewLine" [useMinMax]="true" (add)="addNewLine($event)"
+		<ichen-terminal-add-field *ngIf="newEnabled" [title]="i18n.labelAddNewLine" [useMinMax]="true" (add)="addNewLine($event)"
 		                          (close)="newEnabled=false"></ichen-terminal-add-field>
 
 		<!-- New line/Delete line buttons -->
@@ -40,7 +40,7 @@
 	<div class="col-md-7 col-lg-8">
 		<div [hidden]="!frameSelected">
 			<!-- Value maps -->
-			<ichen-terminal-value-maps-list [i18n]="i18n" [line]="configFile?.controllers?.default" [title]="i18n.labelFrameStyles"
+			<ichen-terminal-value-maps-list [line]="configFile?.controllers?.default" [title]="i18n.labelFrameStyles"
 			                                [textColors]="false" (listChanged)="setDirty()"></ichen-terminal-value-maps-list>
 
 			<div *ngIf="isDebug">{{configFile?.controllers?.default?.maps|json}}</div>
@@ -54,7 +54,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="ichen-edit-formatting form-group col">
-							<ichen-terminal-formatting [i18n]="i18n" [classes]="selectedLine?.class" (classesChanged)="selectedLine.class=$event; setDirty()"></ichen-terminal-formatting>
+							<ichen-terminal-formatting [classes]="selectedLine?.class" (classesChanged)="selectedLine.class=$event; setDirty()"></ichen-terminal-formatting>
 						</div>
 					</div>
 
@@ -84,7 +84,7 @@
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<ichen-terminal-formatting [i18n]="i18n" [title]="i18n.labelOverlayBarColor" [textColors]="false" [classes]="selectedLine?.overlay"
+								<ichen-terminal-formatting [title]="i18n.labelOverlayBarColor" [textColors]="false" [classes]="selectedLine?.overlay"
 								                           (classesChanged)="selectedLine.overlay=$event; setDirty()"></ichen-terminal-formatting>
 							</div>
 						</div>
@@ -106,7 +106,7 @@
 			</div>
 
 			<!-- Value maps -->
-			<ichen-terminal-value-maps-list [i18n]="i18n" [line]="selectedLine" [title]="i18n.labelValueStyles" (listChanged)="setDirty()">
+			<ichen-terminal-value-maps-list [line]="selectedLine" [title]="i18n.labelValueStyles" (listChanged)="setDirty()">
 			</ichen-terminal-value-maps-list>
 
 			<div *ngIf="isDebug">{{selectedLine|json}}</div>
