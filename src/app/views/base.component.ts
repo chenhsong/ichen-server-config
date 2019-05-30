@@ -1,11 +1,11 @@
 ﻿import { OnInit } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { CoreComponent } from "./core.component";
 
 export class BaseComponent<R extends object> extends CoreComponent implements OnInit
 {
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	public ngOnInit()
 	{
@@ -16,7 +16,7 @@ export class BaseComponent<R extends object> extends CoreComponent implements On
 
 	protected buildLoadingPipeline()
 	{
-		return this.http.get(this.urlGet).pipe(map(r => r.json() as R));
+		return this.http.get<R>(this.urlGet);
 	}
 
 	protected async reloadAsync()

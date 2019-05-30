@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
 import { CoreComponent } from "./core.component";
 
@@ -12,7 +12,7 @@ export class LoginComponent extends CoreComponent
 	public user: string | null = null;
 	public password: string | null = null;
 
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	public get isValidUser() { return !!this.user && !!this.user.trim(); }
 	public get isValidPassword() { return !!this.password && !!this.password.trim(); }

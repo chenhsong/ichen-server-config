@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Config } from "../app.config";
 import { BaseComponent } from "./base.component";
@@ -23,13 +23,11 @@ export class TerminalComponent extends BaseComponent<Terminal.IConfig>
 	public readonly isDebug = Config.isDebug;
 	public readonly transform = Transform;
 
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	protected buildLoadingPipeline()
 	{
-		return this.http.get(this.urlGet).pipe(
-			// Get raw text
-			map(r => r.text()),
+		return this.http.get(this.urlGet, { responseType: "text" }).pipe(
 			// Cut out everything before the first bracket - this is to handle JSON embedded as scripts
 			map(text =>
 			{

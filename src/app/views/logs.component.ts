@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
 import { NullField } from "../components/fields";
 import { CoreComponent } from "./core.component";
@@ -27,7 +27,7 @@ export class LogsComponent extends CoreComponent implements OnInit
 	public lines: ILogLine[] | null = null;
 	public format = "screen";
 
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	public async ngOnInit()
 	{

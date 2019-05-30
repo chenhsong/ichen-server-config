@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
 import { ItemsListBaseComponent } from "./items-list-base.component";
 
@@ -9,7 +9,7 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 })
 export class UsersListComponent extends ItemsListBaseComponent<IUser>
 {
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	protected checkFilter(user: IUser, filter: string)
 	{

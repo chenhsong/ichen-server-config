@@ -1,7 +1,7 @@
 ﻿import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { appRoutingModule, appRoutingProviders } from "./app.routes";
@@ -27,12 +27,13 @@ import { TerminalAddFieldComponent } from "./views/terminal-add-field.component"
 
 import { IsNumericPipe } from "./components/is-numeric.pipe";
 import { MapFieldNamePipe } from "./components/map-field-name.pipe";
+import { MapControllerTypePipe } from "./components/map-controller-type.pipe";
 
 @NgModule({
 	imports: [
 		BrowserModule,
 		FormsModule,
-		HttpModule,
+		HttpClientModule,
 		appRoutingModule
 	],
 
@@ -70,7 +71,8 @@ import { MapFieldNamePipe } from "./components/map-field-name.pipe";
 
 		// Pipes
 		IsNumericPipe,
-		MapFieldNamePipe
+		MapFieldNamePipe,
+		MapControllerTypePipe
 	],
 
 	providers: [...appRoutingProviders],

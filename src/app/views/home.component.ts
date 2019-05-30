@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
 import { CoreComponent } from "./core.component";
 
@@ -28,7 +28,7 @@ export class HomeComponent extends CoreComponent implements OnDestroy
 	public controllersList: { key: string; description: string; }[] | null = null;
 	private refreshTask = 0;
 
-	constructor(http: Http)
+	constructor(http: HttpClient)
 	{
 		super(http);
 		this.refreshAsync();

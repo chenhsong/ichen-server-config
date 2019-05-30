@@ -1,4 +1,4 @@
-﻿import { Http } from "@angular/http";
+﻿import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
@@ -10,7 +10,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 	public editingItem: T | null = null;
 	public readonly itemStream = new Subject<Wrapped<T>[]>();
 
-	constructor(http: Http) { super(http); }
+	constructor(http: HttpClient) { super(http); }
 
 	public filterChanged(text: string)
 	{
