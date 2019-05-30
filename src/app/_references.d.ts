@@ -4,7 +4,7 @@
 }
 
 type Filters = "None" | "Status" | "Cycle" | "Mold" | "Actions" | "Alarms" | "Audit" | "JobCards" | "Operators" | "All";
-type ControllerTypes = "Ai01" | "Ai02" | "Ai11" | "Ai12" | "CPC60" | "MPC60" | "CDC2000" | "CDC3000" | "CDC2000WIN" | "SPS3300" | "NewAge" | "CBmold300" | "CBmold800" | "Unknown";
+type ControllerTypes = "Ai01" | "Ai02" | "Ai11" | "Ai12" | "CPC60" | "MPC60" | "MPC7" | "CDC2000" | "CDC3000" | "CDC2000WIN" | "Generic" | "NewAge" | "CBmold300" | "CBmold800" | "Inovance" | "Unknown";
 
 interface Dictionary<T> { [key: string]: T; }
 interface DictionaryWithDefault<T extends object> extends Dictionary<T> { default: T; }
@@ -56,7 +56,7 @@ interface IController
 	id: number;
 	isEnabled: boolean;
 	name: string;
-	type: ControllerTypes;
+	type: number;
 	version: string;
 	model: string;
 	IP: string;
