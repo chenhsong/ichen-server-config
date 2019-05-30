@@ -259,7 +259,6 @@
 		"textConfirmDeleteMachine": "Do you really want to delete the machine {0}?",
 		"textDownloading": "Data is being downloaded. Please wait for the download to complete."
 	},
-
 	"zh-tw": {
 		"ch_logo": "header_logo_dark_chi_large",
 		"app_title_full": "系統設定",
@@ -324,7 +323,7 @@
 		"labelFilterAlarms": "報警",
 		"labelFilterAudit": "參數更改",
 		"labelFilterJobCards": "工咭控制",
-		"labelFilterOperators": "操作人員權限控制",
+		"labelFilterOperators": "操作權限",
 		"labelFilterOPCUA": "OPC UA 通訊",
 		"labelFilterNone": "( 無任何權限 )",
 		"labelFilterAll": "★管理員權限★",
@@ -520,7 +519,6 @@
 		"textConfirmDeleteMachine": "碓認刪除注塑機 {0}？",
 		"textDownloading": "數據正在下載中，請稍候。"
 	},
-
 	"zh-cn": {
 		"ch_logo": "header_logo_dark_chi_large",
 		"app_title_full": "系统设定",
@@ -585,7 +583,7 @@
 		"labelFilterAlarms": "报警",
 		"labelFilterAudit": "参数更改",
 		"labelFilterJobCards": "工卡控制",
-		"labelFilterOperators": "操作人员权限控制",
+		"labelFilterOperators": "操作权限",
 		"labelFilterOPCUA": "OPC UA 通信",
 		"labelFilterNone": "( 无任何权限 )",
 		"labelFilterAll": "★管理员权限★",
