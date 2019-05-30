@@ -1,7 +1,8 @@
 ﻿import { Component, Input, Output } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
 import { ItemsListBaseComponent } from "./items-list-base.component";
+import { Transform as mapControllerType } from "../components/map-controller-type.pipe";
 
 @Component({
 	selector: "ichen-controllers-list",
@@ -9,7 +10,9 @@ import { ItemsListBaseComponent } from "./items-list-base.component";
 })
 export class ControllersListComponent extends ItemsListBaseComponent<IController>
 {
-	constructor(http: Http) { super(http); }
+	protected mapControllerType = mapControllerType;
+
+	constructor(http: HttpClient) { super(http); }
 
 	protected checkFilter(controller: IController, filter: string)
 	{
@@ -38,9 +41,9 @@ export class ControllersListComponent extends ItemsListBaseComponent<IController
 	{
 		return {
 			id: 0,
-			name: "New controller",
+			name: "New Machine",
 			isEnabled: true,
-			type: "Ai02",
+			type: 6,
 			model: "Unknown Model",
 			version: "Unknown",
 			IP: "0.0.0.0:0"

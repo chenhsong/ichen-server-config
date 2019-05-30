@@ -11,11 +11,12 @@
 			<span *ngIf="!info.isEnabled" class="text-danger glyphicon glyphicon-remove"></span>
 			&nbsp;
 			<span class="ichen-controller-name">{{info.name}}</span>
-			<span class="extra-content">{{info.model}} ({{info.type}}) @ {{info.IP}}</span>
+			<span class="extra-content">{{info.model}} ({{info.type | mapControllerType}}) @ {{info.IP}}</span>
 		</div>
 	</div>
 	<div class="input-group-append">
-		<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()" class="ichen-edit btn btn-sm btn-outline-secondary">
+		<button type="button" [disabled]="info.isSaving" (click)="editEvent.emit()"
+						class="ichen-edit btn btn-sm btn-outline-secondary">
 			<span class="glyphicon glyphicon-pencil"></span>
 		</button>
 	</div>

@@ -1,5 +1,4 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import ControllerTypes from "../components/controllers";
 import { Config } from "../app.config";
 
 @Component({
@@ -13,7 +12,7 @@ export class ControllerEditorComponent
 	@Input() public id = "";
 	@Input() public name = "";
 	@Input() public enabled = true;
-	@Input() public readonly type!: ControllerTypes;
+	@Input() public readonly type!: number;
 	@Input() public readonly model!: string;
 	@Input() public readonly version!: string;
 	@Input() public readonly IP = "0.0.0.0:0";
@@ -25,7 +24,6 @@ export class ControllerEditorComponent
 	public get i18n() { return Config.i18n; }
 
 	public dirty = false;
-	public readonly controllerTypes = ControllerTypes;
 	public readonly parseInt = parseInt;
 
 	public isNumeric(text: string) { return /^\s*\d+\s*$/.test(text) && !/^\s*0+\s*$/.test(text); }
