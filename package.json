@@ -1,16 +1,14 @@
 {
   "name": "ichen-server-config",
-  "version": "4.1.2",
+  "version": "4.2.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:modern": "ng build --plugin ngx-build-modern --prod",
-    "build:modern:ichen-server-config": "ng build --plugin ngx-build-modern --project ichen-server-config --prod"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -20,13 +18,11 @@
     "@angular/compiler": "^7.2.8",
     "@angular/core": "^7.2.8",
     "@angular/forms": "^7.2.8",
-    "@angular/http": "^7.2.8",
     "@angular/platform-browser": "^7.2.8",
     "@angular/platform-browser-dynamic": "^7.2.8",
     "@angular/router": "^7.2.8",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
-    "ngx-build-modern": "^1.1.9",
     "ngx-build-plus": "^7.7.6",
     "rxjs": "^6.4.0",
     "zone.js": "^0.8.29"
@@ -50,6 +46,6 @@
     "protractor": "^5.4.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.13.1",
-    "typescript": "^3.2.4"
+    "typescript": "~3.4.5"
   }
 }
