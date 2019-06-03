@@ -8,6 +8,9 @@
 		"types": [],
 		"strictFunctionTypes": false
 	},
+	"angularCompilerOptions": {
+		"enableIvy": true
+	},
 	"exclude": [
 		"test.ts",
 		"**/*.spec.ts"
