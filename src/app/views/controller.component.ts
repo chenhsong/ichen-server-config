@@ -1,4 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { IController, IWrapper } from "../interfaces";
 import { ItemBaseComponent } from "./item-base.component";
 
 @Component({

@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Config } from "../app.config";
+import { IUser, IFilters, Filters, Dictionary } from "../interfaces";
 
 @Component({
 	selector: "ichen-user-editor",
@@ -37,10 +38,10 @@ export class UserEditorComponent implements OnInit
 	public ngOnInit()
 	{
 		// Build the filters object
-		const flist = ((this.info && this.info.filters) || "").replace(/ /g, "").split(",") as Filters[];
+		const filters_list = ((this.info && this.info.filters) || "").replace(/ /g, "").split(",") as Filters[];
 
-		for (const key of flist) {
-			(this.filters as Dictionary<unknown>)[key] = true;
+		for (const key of filters_list) {
+			(this.filters as unknown as Dictionary<unknown>)[key] = true;
 		}
 	}
 
@@ -69,25 +70,25 @@ export class UserEditorComponent implements OnInit
 		if (!this.info || this.info.accessLevel !== this.accessLevel) delta.accessLevel = this.accessLevel;
 		if (!this.info || this.info.isEnabled !== this.enabled) delta.isEnabled = this.enabled;
 
-		const arfilters: string[] = [];
+		const filters_list: string[] = [];
 
 		if (this.filters.All) {
-			arfilters.push("All");
+			filters_list.push("All");
 		} else {
-			if (this.filters.Status) arfilters.push("Status");
-			if (this.filters.Cycle) arfilters.push("Cycle");
-			if (this.filters.Mold) arfilters.push("Mold");
-			if (this.filters.Actions) arfilters.push("Actions");
-			if (this.filters.Alarms) arfilters.push("Alarms");
-			if (this.filters.Audit) arfilters.push("Audit");
+			if (this.filters.Status) filters_list.push("Status");
+			if (this.filters.Cycle) filters_list.push("Cycle");
+			if (this.filters.Mold) filters_list.push("Mold");
+			if (this.filters.Actions) filters_list.push("Actions");
+			if (this.filters.Alarms) filters_list.push("Alarms");
+			if (this.filters.Audit) filters_list.push("Audit");
 		}
 
-		if (this.filters.JobCards) arfilters.push("JobCards");
-		if (this.filters.Operators) arfilters.push("Operators");
-		if (this.filters.OPCUA) arfilters.push("OPCUA");
+		if (this.filters.JobCards) filters_list.push("JobCards");
+		if (this.filters.Operators) filters_list.push("Operators");
+		if (this.filters.OPCUA) filters_list.push("OPCUA");
 
-		const fstr = arfilters.join(", ") || "None";
-		if (!this.info || this.info.filters !== fstr) delta.filters = fstr;
+		const text = filters_list.join(", ") || "None";
+		if (!this.info || this.info.filters !== text) delta.filters = text;
 
 		this.saveEvent.emit(delta);
 	}
@@ -102,13 +103,13 @@ export class UserEditorComponent implements OnInit
 
 	public changeAccessLevel(delta: number)
 	{
-		const oldlevel = this.accessLevel;
+		const old_level = this.accessLevel;
 
-		let level = oldlevel + delta;
+		let level = old_level + delta;
 		if (level > 10) level = 10;
 		if (level <= 0) level = 0;
 
-		if (oldlevel !== level) {
+		if (old_level !== level) {
 			this.accessLevel = level;
 			this.dirty = true;
 		}

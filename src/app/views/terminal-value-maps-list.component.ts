@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { findFieldDef } from "../components/fields";
 import { Config } from "../app.config";
+import * as Terminal from "../terminal-config"
 
 @Component({
 	selector: "ichen-terminal-value-maps-list",

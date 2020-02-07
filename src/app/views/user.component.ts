@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { ItemBaseComponent } from "./item-base.component";
 import { Config } from "../app.config";
+import { IUser, IWrapper } from "../interfaces";
+import { ItemBaseComponent } from "./item-base.component";
 
 @Component({
 	selector: "ichen-user",

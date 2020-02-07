@@ -52,29 +52,29 @@ export class TerminalAddFieldComponent implements OnInit
 		return /^\s*[a-zA-Z_][a-zA-Z0-9_]*\s*$/.test(this.alarmName);
 	}
 
-	private processMinMax(minmax: string | null, custom: number | null): string | number | null
+	private processMinMax(min_max: string | null, custom: number | null): string | number | null
 	{
 		if (!this.isNumericField) return null;
-		if (minmax === null) return null;
-		minmax = minmax.trim();
-		if (minmax === CustomValue) return (custom == null) ? null : custom;
-		if (minmax.length <= 0) return null;
-		if (minmax[0] === "_") {
-			if (minmax.length <= 1) return null;
-			minmax = minmax.substr(1).trim();
+		if (min_max === null) return null;
+		min_max = min_max.trim();
+		if (min_max === CustomValue) return (custom == null) ? null : custom;
+		if (min_max.length <= 0) return null;
+		if (min_max[0] === "_") {
+			if (min_max.length <= 1) return null;
+			min_max = min_max.substr(1).trim();
 		}
-		if (/^\d+(\.\d*)?$/.test(minmax)) return parseFloat(minmax);
-		return minmax;
+		if (/^\d+(\.\d*)?$/.test(min_max)) return parseFloat(min_max);
+		return min_max;
 	}
 
 	public doAdd()
 	{
-		let fieldkey: string | null = this.field;
-		if (this.field === DefaultField.name) fieldkey = null;
-		if (this.alarmName && fieldNeedsSpecify(fieldkey)) fieldkey += this.alarmName.trim().toUpperCase();
+		let field_key: string | null = this.field;
+		if (this.field === DefaultField.name) field_key = null;
+		if (this.alarmName && fieldNeedsSpecify(field_key)) field_key += this.alarmName.trim().toUpperCase();
 
 		this.addEvent.emit({
-			field: fieldkey,
+			field: field_key,
 			min: this.processMinMax(this.min, this.minValue),
 			max: this.processMinMax(this.max, this.maxValue)
 		});

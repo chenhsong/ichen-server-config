@@ -5,6 +5,7 @@ import OpModes from "../components/op-modes";
 import JobModes from "../components/job-modes";
 import Actions from "../components/actions";
 import { Config } from "../app.config";
+import * as Terminal from "../terminal-config"
 
 @Component({
 	selector: "ichen-terminal-value-map-editor",

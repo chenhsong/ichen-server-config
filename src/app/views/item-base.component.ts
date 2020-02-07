@@ -1,6 +1,8 @@
-﻿import { Input, Output, EventEmitter } from "@angular/core";
+﻿import { Input, Output, EventEmitter, Directive } from "@angular/core";
 import { Config } from "../app.config";
+import { Wrapped } from "../interfaces";
 
+@Directive()
 export class ItemBaseComponent<K, T extends object>
 {
 	@Input() public readonly info!: Wrapped<T>;

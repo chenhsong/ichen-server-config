@@ -1,4 +1,5 @@
 ﻿import { ApplicationRef } from "@angular/core";
+import { ITranslationDictionary, ILoggedInUser } from "./interfaces";
 
 // Constants
 

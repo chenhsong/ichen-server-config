@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Transform } from "../components/map-field-name.pipe";
 import { Config } from "../app.config";
+import * as Terminal from "../terminal-config"
 
 @Component({
 	selector: "ichen-terminal-display-box",

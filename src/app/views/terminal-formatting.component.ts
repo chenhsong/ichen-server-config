@@ -29,28 +29,28 @@ export class TerminalFormattingComponent
 		regexp = new RegExp(`\\b${MiscColors.Blink}\\b`); this.hasBlink = regexp.test.bind(regexp);
 	}
 
-	public toggleClass(classname: string)
+	public toggleClass(className: string)
 	{
-		if (classname === MiscColors.NotSet) return;
+		if (className === MiscColors.NotSet) return;
 
 		// NOTE - For Edge, we must first remove a class with an active animation before we can change
 		//        a property that is being animated
-		const remove_blink = (classname !== MiscColors.Blink && this.hasBlink(this.classes)) ? MiscColors.Blink : null;
+		const remove_blink = (className !== MiscColors.Blink && this.hasBlink(this.classes)) ? MiscColors.Blink : null;
 
 		const cx = (this.classes || "").split(" ").filter(cls => !!cls && cls !== remove_blink);
-		let newclasses: string | null;
+		let new_classes: string | null;
 
-		if (cx.some(cls => cls === classname)) {
-			newclasses = cx.filter(cls => cls !== classname).join(" ").trim() || null;
+		if (cx.some(cls => cls === className)) {
+			new_classes = cx.filter(cls => cls !== className).join(" ").trim() || null;
 		} else {
-			newclasses = cx.concat(classname).join(" ").trim() || null;
+			new_classes = cx.concat(className).join(" ").trim() || null;
 		}
 
-		this.changeEvent.emit(newclasses);
+		this.changeEvent.emit(new_classes);
 
 		if (remove_blink) {
-			newclasses = newclasses ? `${newclasses} ${MiscColors.Blink}` : MiscColors.Blink;
-			setTimeout(() => this.changeEvent.emit(newclasses), 0);
+			new_classes = new_classes ? `${new_classes} ${MiscColors.Blink}` : MiscColors.Blink;
+			setTimeout(() => this.changeEvent.emit(new_classes), 0);
 		}
 	}
 
@@ -58,20 +58,20 @@ export class TerminalFormattingComponent
 	{
 		if (!this.classes) return MiscColors.NotSet;
 
-		let defns: IColorDef[];
+		let definitions: IColorDef[];
 
 		switch (type) {
-			case "B": defns = BackgroundColors; break;
-			case "T": defns = TextColors; break;
-			case "R": defns = BorderColors; break;
+			case "B": definitions = BackgroundColors; break;
+			case "T": definitions = TextColors; break;
+			case "R": definitions = BorderColors; break;
 			default: return MiscColors.NotSet;
 		}
 
 		const padded = ` ${this.classes} `;
 
-		for (const color of defns) {
-			const colorkey = ` ${color.name} `;
-			if (padded.indexOf(colorkey) >= 0) return color.name;
+		for (const color of definitions) {
+			const color_key = ` ${color.name} `;
+			if (padded.indexOf(color_key) >= 0) return color.name;
 		}
 
 		return MiscColors.NotSet;
@@ -83,32 +83,32 @@ export class TerminalFormattingComponent
 		//        a property that is being animated
 		const remove_blink = this.hasBlink(this.classes) ? MiscColors.Blink : null;
 
-		function setClasses(typeCode: string, classes: string, colorCode: string, doblink: string | null)
+		function setClasses(typeCode: string, classes: string, colorCode: string, doBlink: string | null)
 		{
 			if (!colorCode) return classes;
 
-			let defns: IColorDef[];
+			let definitions: IColorDef[];
 
 			switch (typeCode) {
-				case "B": defns = BackgroundColors; break;
-				case "T": defns = TextColors; break;
-				case "R": defns = BorderColors; break;
+				case "B": definitions = BackgroundColors; break;
+				case "T": definitions = TextColors; break;
+				case "R": definitions = BorderColors; break;
 				default: return classes;
 			}
 
 			let cx = (classes || "").split(" ");
-			cx = cx.filter(c => !!c && c !== doblink).filter(c => !defns.some(cdef => cdef.name === c));
+			cx = cx.filter(c => !!c && c !== doBlink).filter(c => !definitions.some(cdef => cdef.name === c));
 			if (colorCode !== MiscColors.NotSet) cx.push(colorCode);
 
 			return cx.join(" ") || null;
 		}
 
-		let newclasses = setClasses(type, this.classes, color, remove_blink);
-		this.changeEvent.emit(newclasses);
+		let new_classes = setClasses(type, this.classes, color, remove_blink);
+		this.changeEvent.emit(new_classes);
 
 		if (remove_blink) {
-			newclasses = newclasses ? `${newclasses} ${MiscColors.Blink}` : MiscColors.Blink;
-			setTimeout(() => this.changeEvent.emit(newclasses), 0);
+			new_classes = new_classes ? `${new_classes} ${MiscColors.Blink}` : MiscColors.Blink;
+			setTimeout(() => this.changeEvent.emit(new_classes), 0);
 		}
 	}
 }

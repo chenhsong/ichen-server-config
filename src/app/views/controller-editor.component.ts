@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Config } from "../app.config";
+import { IController } from "../interfaces";
 
 @Component({
 	selector: "ichen-controller-editor",

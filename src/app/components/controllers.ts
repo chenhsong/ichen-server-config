@@ -1,4 +1,6 @@
-﻿export interface IControllerDescription
+﻿import { ControllerTypes } from "../interfaces";
+
+export interface IControllerDescription
 {
 	id: number;
 	name: ControllerTypes;

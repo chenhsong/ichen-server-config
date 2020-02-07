@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
+import { ILoggedInUser } from "../interfaces";
 import { CoreComponent } from "./core.component";
 
 @Component({

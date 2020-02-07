@@ -2,6 +2,7 @@
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Config } from "../app.config";
+import * as Terminal from "../terminal-config"
 import { BaseComponent } from "./base.component";
 import { StandardFields, CycleDataFields } from "../components/fields";
 import { Transform } from "../components/map-field-name.pipe";

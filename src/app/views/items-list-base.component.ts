@@ -1,7 +1,8 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
-import { BaseComponent } from "./base.component";
 import { Config } from "../app.config";
+import { Dictionary, Wrapped } from "../interfaces";
+import { BaseComponent } from "./base.component";
 
 export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dictionary<T>>
 {

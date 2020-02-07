@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
+import { IController, IWrapper } from "../interfaces";
 import { ItemsListBaseComponent } from "./items-list-base.component";
 import { Transform as mapControllerType } from "../components/map-controller-type.pipe";
 
@@ -16,10 +17,10 @@ export class ControllersListComponent extends ItemsListBaseComponent<IController
 
 	protected checkFilter(controller: IController, filter: string)
 	{
-		const ftext = filter.toUpperCase();
+		const text = filter.toUpperCase();
 
 		// The filter should match substrings of either the controller name or id
-		return controller.name.toUpperCase().indexOf(ftext) >= 0 || controller.id.toString().indexOf(ftext) >= 0;
+		return controller.name.toUpperCase().indexOf(text) >= 0 || controller.id.toString().indexOf(text) >= 0;
 	}
 
 	protected get urlGet() { return Config.URL.controllers; }
@@ -30,10 +31,10 @@ export class ControllersListComponent extends ItemsListBaseComponent<IController
 	{
 		return list.sort((a, b) =>
 		{
-			const aname = a.name.toLowerCase();
-			const bname = b.name.toLowerCase();
+			const name_a = a.name.toLowerCase();
+			const name_b = b.name.toLowerCase();
 
-			return (aname < bname) ? -1 : (aname > bname) ? + 1 : 0;
+			return (name_a < name_b) ? -1 : (name_a > name_b) ? + 1 : 0;
 		});
 	}
 

@@ -1,6 +1,8 @@
-﻿function splitMaps(maps: Terminal.IClassMap[])
+﻿import * as Terminal from "../terminal-config"
+
+function splitMaps(maps: Terminal.IClassMap[])
 {
-	const newmaps: Terminal.IClassMap[] = [];
+	const new_maps: Terminal.IClassMap[] = [];
 
 	maps.forEach(map =>
 	{
@@ -10,24 +12,24 @@
 			if (Array.isArray(val)) {
 				val.forEach(x =>
 				{
-					const newmap: Terminal.IClassMap = { value: x, class: map.class };
-					if (map.hasOwnProperty("field")) newmap.field = map.field;
-					newmaps.push(newmap);
+					const new_map: Terminal.IClassMap = { value: x, class: map.class };
+					if (map.hasOwnProperty("field")) new_map.field = map.field;
+					new_maps.push(new_map);
 				});
 			} else {
-				const newmap: Terminal.IClassMap = { value: val, class: map.class };
-				if (map.hasOwnProperty("field")) newmap.field = map.field;
-				newmaps.push(newmap);
+				const new_map: Terminal.IClassMap = { value: val, class: map.class };
+				if (map.hasOwnProperty("field")) new_map.field = map.field;
+				new_maps.push(new_map);
 			}
 		} else if (map.hasOwnProperty("notValue")) {
 			const val = (map as Terminal.IClassMapNegatedValueBase).notValue;
-			const newmap: Terminal.IClassMap = { notValue: val, class: map.class };
-			if (map.hasOwnProperty("field")) newmap.field = map.field;
-			newmaps.push(newmap);
+			const new_map: Terminal.IClassMap = { notValue: val, class: map.class };
+			if (map.hasOwnProperty("field")) new_map.field = map.field;
+			new_maps.push(new_map);
 		}
 	});
 
-	return newmaps;
+	return new_maps;
 }
 
 function normalizeMaps(maps: Terminal.IClassMap | Terminal.IClassMap[])

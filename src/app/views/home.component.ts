@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Config } from "../app.config";
+import { Dictionary } from "../interfaces";
 import { CoreComponent } from "./core.component";
 
 interface IStatus
