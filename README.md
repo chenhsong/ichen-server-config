@@ -1,8 +1,8 @@
 iChen® System 4 Server Configuration UI
 =======================================
 
-Language: TypeScript 3.4 or above  
-Framework: Angular 8.0 or above  
+Language: TypeScript 3.7 or above  
+Framework: Angular 9.0 or above  
 Major Packages: Bootstrap 4
 
 This is a web application that allows configuration of an iChen® System Server.
