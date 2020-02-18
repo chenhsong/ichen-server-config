@@ -3,7 +3,7 @@ import { ITranslationDictionary, ILoggedInUser } from "./interfaces";
 
 // Constants
 
-const urlRoot = (window as any).ServiceUrl || "";
+const urlRoot = (window as any).ServiceUrl ?? "";
 let defaultLang = "en";
 const langKey = "lang";
 const downloadIFrameID = "downloadIFrame";

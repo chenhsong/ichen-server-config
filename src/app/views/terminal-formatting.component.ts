@@ -37,7 +37,7 @@ export class TerminalFormattingComponent
 		//        a property that is being animated
 		const remove_blink = (className !== MiscColors.Blink && this.hasBlink(this.classes)) ? MiscColors.Blink : null;
 
-		const cx = (this.classes || "").split(" ").filter(cls => !!cls && cls !== remove_blink);
+		const cx = this.classes.split(" ").filter(cls => !!cls).filter(cls => cls !== remove_blink);
 		let new_classes: string | null;
 
 		if (cx.some(cls => cls === className)) {
@@ -96,11 +96,11 @@ export class TerminalFormattingComponent
 				default: return classes;
 			}
 
-			let cx = (classes || "").split(" ");
-			cx = cx.filter(c => !!c && c !== doBlink).filter(c => !definitions.some(cdef => cdef.name === c));
+			let cx = classes.split(" ");
+			cx = cx.filter(cls => !!cls).filter(cls => cls !== doBlink).filter(cls => !definitions.some(cdef => cdef.name === cls));
 			if (colorCode !== MiscColors.NotSet) cx.push(colorCode);
 
-			return cx.join(" ") || null;
+			return cx.join(" ").trim() || null;
 		}
 
 		let new_classes = setClasses(type, this.classes, color, remove_blink);

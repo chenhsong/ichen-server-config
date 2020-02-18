@@ -11,10 +11,10 @@ export class MapFieldNamePipe implements PipeTransform
 		if (value.trim().length === 0) return "";
 
 		for (const field of StandardFields) {
-			if (field.name === value) return Config.i18n[field.description] || field.description;
+			if (field.name === value) return Config.i18n[field.description] ?? field.description;
 		}
 		for (const field of CycleDataFields) {
-			if (field.name === value) return Config.i18n[field.description] || field.description;
+			if (field.name === value) return Config.i18n[field.description] ?? field.description;
 		}
 		if (/^alarms\?\./.test(value)) return `${Config.i18n.labelFieldAlarmPrefix} ${value.substr(8)}`;
 		return value;

@@ -15,7 +15,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 
 	public filterChanged(text: string)
 	{
-		this.filter = (text || "").trim();
+		this.filter = (text ?? "").trim();
 
 		// Disable editing if it hides the controller currently being edited
 		if (this.editingItem && !this.isEditing(this.editingItem, true)) this.editingItem = null;
@@ -48,7 +48,7 @@ export class ItemsListBaseComponent<T extends object> extends BaseComponent<Dict
 	protected editItem(item: Wrapped<T> | null)
 	{
 		if (this.isBusy) return;
-		if (item && item.isSaving) return;
+		if (item?.isSaving) return;
 
 		this.editingItem = item;
 	}

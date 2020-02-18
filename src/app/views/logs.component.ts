@@ -64,7 +64,7 @@ export class LogsComponent extends CoreComponent implements OnInit
 		try {
 			const info = await this.doGetJsonAsync<{ classes?: string[]; }>(`${Config.URL.logFile}/${this.selectedDate}/info`);
 
-			const classes: string[] = info.classes || [];
+			const classes: string[] = info.classes ?? [];
 
 			this.classesList = classes;
 			this.selectedLevel = NullField.name;

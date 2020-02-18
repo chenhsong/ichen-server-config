@@ -38,7 +38,7 @@ export class UserEditorComponent implements OnInit
 	public ngOnInit()
 	{
 		// Build the filters object
-		const filters_list = ((this.info && this.info.filters) || "").replace(/ /g, "").split(",") as Filters[];
+		const filters_list = (this.info?.filters ?? "").replace(/ /g, "").split(",") as Filters[];
 
 		for (const key of filters_list) {
 			(this.filters as unknown as Dictionary<unknown>)[key] = true;
@@ -87,7 +87,7 @@ export class UserEditorComponent implements OnInit
 		if (this.filters.Operators) filters_list.push("Operators");
 		if (this.filters.OPCUA) filters_list.push("OPCUA");
 
-		const text = filters_list.join(", ") || "None";
+		const text = filters_list.join(", ").trim() || "None";
 		if (!this.info || this.info.filters !== text) delta.filters = text;
 
 		this.saveEvent.emit(delta);

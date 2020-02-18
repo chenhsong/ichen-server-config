@@ -15,8 +15,8 @@ export class LoginComponent extends CoreComponent
 
 	constructor(http: HttpClient) { super(http); }
 
-	public get isValidUser() { return !!this.user && !!this.user.trim(); }
-	public get isValidPassword() { return !!this.password && !!this.password.trim(); }
+	public get isValidUser() { return !!this.user?.trim(); }
+	public get isValidPassword() { return !!this.password?.trim(); }
 
 	public async doLoginAsync(ev: Event)
 	{

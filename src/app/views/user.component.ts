@@ -25,7 +25,7 @@ export class UserComponent extends ItemBaseComponent<number, IUser>
 	{
 		return this.info.filters.split(",")
 			.map(filter => filter.trim())
-			.map(filter => Config.lang === "en" ? filter : (this.i18n["labelFilter" + filter] || filter))
+			.map(filter => Config.lang === "en" ? filter : (this.i18n["labelFilter" + filter] ?? filter))
 			.join(", ");
 	}
 }

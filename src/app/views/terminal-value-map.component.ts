@@ -41,7 +41,7 @@ export class TerminalValueMapComponent
 
 	public formatFieldValue(value: unknown)
 	{
-		const field = findFieldDef(this.info.field || this.defaultField);
+		const field = findFieldDef(this.info.field ?? this.defaultField);
 
 		if (field) {
 			try {
